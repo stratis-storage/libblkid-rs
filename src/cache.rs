@@ -1,11 +1,11 @@
-use std::{
-    ffi::CString,
-    path::Path,
-};
+use std::{ffi::CString, path::Path};
 
 use libblkid_rs_sys::blkid_cache;
 
-use crate::err::{BlkidErr, Result};
+use crate::{
+    dev::BlkidDevIter,
+    err::{BlkidErr, Result},
+};
 
 /// Data structure representing cache in libblkid
 pub struct BlkidCache(blkid_cache);
@@ -18,10 +18,8 @@ impl BlkidCache {
 
     /// Allocate and initalize cache handler
     pub fn get_cache(&mut self, filename: &Path) -> Result<()> {
-        let filename_cstring = CString::new(
-            filename.to_str()
-                .ok_or(BlkidErr::InvalidConv)?
-        ).map_err(BlkidErr::Null)?;
+        let filename_cstring = CString::new(filename.to_str().ok_or(BlkidErr::InvalidConv)?)
+            .map_err(BlkidErr::Null)?;
         errno!(unsafe {
             libblkid_rs_sys::blkid_get_cache(&mut self.0 as *mut _, filename_cstring.as_ptr())
         })
@@ -29,8 +27,10 @@ impl BlkidCache {
 
     /// Removes non-existant devices from cache
     pub fn gc_cache(&mut self) {
-        unsafe {
-            libblkid_rs_sys::blkid_gc_cache(self.0)
-        }
+        unsafe { libblkid_rs_sys::blkid_gc_cache(self.0) }
+    }
+
+    pub fn iter(&self) -> BlkidDevIter {
+        BlkidDevIter::new(unsafe { libblkid_rs_sys::blkid_dev_iterate_begin(self.0) })
     }
 }
