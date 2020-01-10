@@ -143,6 +143,7 @@ name = "libblkid-rs"
 version = "0.1.0"
 dependencies = [
  "libblkid-rs-sys 0.1.0",
+ "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
