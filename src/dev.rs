@@ -1,7 +1,7 @@
 use std::{
-    os::unix::io::AsRawFd,
     ffi::{CStr, CString},
     fs::File,
+    os::unix::io::AsRawFd,
     ptr,
 };
 
@@ -37,7 +37,9 @@ impl BlkidDev {
     /// Get the size of a device as reported by the cache
     pub fn devsize(&self) -> Result<BlkidSize> {
         let f = File::open(self.devname()?)?;
-        Ok(BlkidSize(unsafe { libblkid_rs_sys::blkid_get_dev_size(f.as_raw_fd()) }))
+        Ok(BlkidSize(unsafe {
+            libblkid_rs_sys::blkid_get_dev_size(f.as_raw_fd())
+        }))
     }
 }
 
