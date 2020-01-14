@@ -1,9 +1,20 @@
 use std::{
+    os::unix::io::AsRawFd,
     ffi::{CStr, CString},
+    fs::File,
     ptr,
 };
 
 use crate::err::{BlkidErr, Result};
+
+/// Size of a device as reported by libblkid
+pub struct BlkidSize(libblkid_rs_sys::blkid_loff_t);
+
+impl Into<i64> for BlkidSize {
+    fn into(self) -> i64 {
+        self.0
+    }
+}
 
 /// Block device found by blkid
 pub struct BlkidDev(libblkid_rs_sys::blkid_dev);
@@ -21,6 +32,12 @@ impl BlkidDev {
         }
         let cstr_ret = unsafe { CStr::from_ptr(ret) };
         Ok(cstr_ret.to_str()?)
+    }
+
+    /// Get the size of a device as reported by the cache
+    pub fn devsize(&self) -> Result<BlkidSize> {
+        let f = File::open(self.devname()?)?;
+        Ok(BlkidSize(unsafe { libblkid_rs_sys::blkid_get_dev_size(f.as_raw_fd()) }))
     }
 }
 

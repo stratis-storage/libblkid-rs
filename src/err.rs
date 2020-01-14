@@ -17,6 +17,7 @@ macro_rules! from_err {
 
 from_err!(
     std::ffi::NulError => Null,
+    std::io::Error => IO,
     std::str::Utf8Error => UTF8,
     std::string::FromUtf8Error => FromUTF8
 );
@@ -37,6 +38,8 @@ pub enum BlkidErr {
     UTF8(std::str::Utf8Error),
     /// UTF8 error
     FromUTF8(std::string::FromUtf8Error),
+    /// IO error
+    IO(std::io::Error),
     /// An unspecified error type and an error message providing more information
     Other(String),
     /// An error code was returned by libblkid
@@ -53,6 +56,7 @@ impl Display for BlkidErr {
             BlkidErr::InvalidConv => write!(f, "The requested conversion was unsuccessful"),
             BlkidErr::UTF8(ref e) => write!(f, "UTF8 error: {}", e),
             BlkidErr::FromUTF8(ref e) => write!(f, "UTF8 conversion error: {}", e),
+            BlkidErr::IO(ref e) => write!(f, "An IO error occurred: {}", e),
             BlkidErr::Other(ref s) => write!(f, "{}", s),
             BlkidErr::LibErr => write!(f, "libblkid returned an error code indicating an operation could not be completed successfully"),
         }
