@@ -5,7 +5,7 @@ use std::{
     ptr,
 };
 
-use crate::err::{BlkidErr, Result};
+use crate::err::Result;
 
 /// Size of a device as reported by libblkid
 pub struct BlkidSize(libblkid_rs_sys::blkid_loff_t);
@@ -26,10 +26,7 @@ impl BlkidDev {
 
     /// Get the device name for a blkid device
     pub fn devname(&self) -> Result<&str> {
-        let ret = unsafe { libblkid_rs_sys::blkid_dev_devname(self.0) };
-        if ret.is_null() {
-            return Err(BlkidErr::LibErr);
-        }
+        let ret = errno_ptr!(unsafe { libblkid_rs_sys::blkid_dev_devname(self.0) })?;
         let cstr_ret = unsafe { CStr::from_ptr(ret) };
         Ok(cstr_ret.to_str()?)
     }

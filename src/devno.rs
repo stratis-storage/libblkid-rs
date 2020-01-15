@@ -1,6 +1,6 @@
 use std::ffi::CStr;
 
-use crate::err::{BlkidErr, Result};
+use crate::err::Result;
 
 /// Device number
 pub struct BlkidDevno(libc::dev_t);
@@ -8,10 +8,7 @@ pub struct BlkidDevno(libc::dev_t);
 impl BlkidDevno {
     /// Get device name from device number
     pub fn to_devname(&self) -> Result<&str> {
-        let ret = unsafe { libblkid_rs_sys::blkid_devno_to_devname(self.0) };
-        if ret.is_null() {
-            return Err(BlkidErr::LibErr);
-        }
+        let ret = errno_ptr!(unsafe { libblkid_rs_sys::blkid_devno_to_devname(self.0) })?;
         let cstr_ret = unsafe { CStr::from_ptr(ret) };
         Ok(cstr_ret.to_str()?)
     }

@@ -8,6 +8,17 @@ macro_rules! errno {
     };
 }
 
+macro_rules! errno_ptr {
+    ($ret_expr:expr) => {{
+        let ptr = $ret_expr;
+        if ptr.is_null() {
+            Err($crate::err::BlkidErr::LibErr)
+        } else {
+            Ok(ptr)
+        }
+    }};
+}
+
 macro_rules! consts_enum_conv {
     ($(#[$enum_meta:meta])* $enum_ident:ident <=> $conv_type:ty, $($(#[$var_meta:meta])* $variant:ident => $const:expr),+) => {
         $(

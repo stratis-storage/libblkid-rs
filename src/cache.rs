@@ -1,4 +1,9 @@
-use std::{ffi::CString, path::Path};
+use std::{
+    ffi::{CStr, CString},
+    path::Path,
+};
+
+use either::Either;
 
 use libblkid_rs_sys::blkid_cache;
 
@@ -58,5 +63,52 @@ impl BlkidCache {
         Ok(BlkidDev::new(unsafe {
             libblkid_rs_sys::blkid_get_dev(self.0, devname_cstring.as_ptr(), flags.into())
         }))
+    }
+
+    /// Get the value associated with a tag (e.g. TYPE) for a given device
+    pub fn get_tag_value(&self, tag_name: &str, devname: &str) -> Result<&str> {
+        let tag_name_cstring = CString::new(tag_name.as_bytes())?;
+        let devname_cstring = CString::new(devname.as_bytes())?;
+        let ptr = errno_ptr!(unsafe {
+            libblkid_rs_sys::blkid_get_tag_value(
+                self.0,
+                tag_name_cstring.as_ptr(),
+                devname_cstring.as_ptr(),
+            )
+        })?;
+        Ok(unsafe { CStr::from_ptr(ptr) }.to_str()?)
+    }
+
+    /// Get the device name for a specific `NAME=value` tag pair in the cache
+    pub fn get_devname(&self, token_or_pair: Either<&str, (&str, &str)>) -> Result<&str> {
+        let (name, value) = match token_or_pair {
+            Either::Left(token) => {
+                if !token.contains('=') {
+                    return Err(BlkidErr::Other(
+                        "Token input requires the format NAME=value".to_string(),
+                    ));
+                }
+                let mut split = token.split('=');
+                match (split.next(), split.next()) {
+                    (Some(name), Some(value)) => (name, value),
+                    (_, _) => {
+                        return Err(BlkidErr::Other(
+                            "Token input requires the format NAME=value".to_string(),
+                        ));
+                    }
+                }
+            }
+            Either::Right((name, value)) => (name, value),
+        };
+        let name_cstring = CString::new(name.as_bytes())?;
+        let value_cstring = CString::new(value.as_bytes())?;
+        let ptr = errno_ptr!(unsafe {
+            libblkid_rs_sys::blkid_get_devname(
+                self.0,
+                name_cstring.as_ptr(),
+                value_cstring.as_ptr(),
+            )
+        })?;
+        Ok(unsafe { CStr::from_ptr(ptr) }.to_str()?)
     }
 }

@@ -10,3 +10,4 @@ path = "./libblkid-rs-sys"
 
 [dependencies]
 libc = "0.2"
+either = "*"
