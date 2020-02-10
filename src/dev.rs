@@ -5,7 +5,7 @@ use std::{
     ptr,
 };
 
-use crate::err::Result;
+use crate::{err::Result, tag::BlkidTagIter};
 
 /// Size of a device as reported by libblkid
 pub struct BlkidSize(libblkid_rs_sys::blkid_loff_t);
@@ -37,6 +37,11 @@ impl BlkidDev {
         Ok(BlkidSize(unsafe {
             libblkid_rs_sys::blkid_get_dev_size(f.as_raw_fd())
         }))
+    }
+
+    /// Iterate through tags in associated with the given block device
+    pub fn tag_iter(&self) -> BlkidTagIter {
+        BlkidTagIter::new(unsafe { libblkid_rs_sys::blkid_tag_iterate_begin(self.0) })
     }
 }
 

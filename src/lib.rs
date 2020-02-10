@@ -33,10 +33,12 @@ pub mod consts;
 mod dev;
 mod devno;
 mod err;
+mod tag;
 
 pub use crate::{
     cache::BlkidCache,
     dev::{BlkidDev, BlkidDevIter},
     devno::BlkidDevno,
     err::{BlkidErr, Result},
+    tag::BlkidTagIter,
 };
