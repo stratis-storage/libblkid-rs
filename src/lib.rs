@@ -34,11 +34,13 @@ mod dev;
 mod devno;
 mod err;
 mod tag;
+mod version;
 
 pub use crate::{
     cache::BlkidCache,
     dev::{BlkidDev, BlkidDevIter},
     devno::BlkidDevno,
     err::{BlkidErr, Result},
-    tag::BlkidTagIter,
+    tag::{parse_tag_string, BlkidTagIter},
+    version::parse_version_string,
 };

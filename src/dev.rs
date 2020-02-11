@@ -43,6 +43,19 @@ impl BlkidDev {
     pub fn tag_iter(&self) -> BlkidTagIter {
         BlkidTagIter::new(unsafe { libblkid_rs_sys::blkid_tag_iterate_begin(self.0) })
     }
+
+    /// Return `true` if the given device has a specified tag
+    pub fn has_tag(&self, type_: &str, value: &str) -> Result<bool> {
+        let type_cstring = CString::new(type_)?;
+        let value_cstring = CString::new(value)?;
+        Ok(unsafe {
+            libblkid_rs_sys::blkid_dev_has_tag(
+                self.0,
+                type_cstring.as_ptr(),
+                value_cstring.as_ptr(),
+            )
+        } != 0)
+    }
 }
 
 /// Iterator for blkid-discovered block devices

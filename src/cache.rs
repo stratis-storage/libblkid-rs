@@ -111,4 +111,18 @@ impl BlkidCache {
         })?;
         Ok(unsafe { CStr::from_ptr(ptr) }.to_str()?)
     }
+
+    /// Find the device with the specified tag
+    pub fn find_dev_with_tag(&self, type_: &str, value: &str) -> Result<BlkidDev> {
+        let type_cstring = CString::new(type_)?;
+        let value_cstring = CString::new(value)?;
+        let ptr = errno_ptr!(unsafe {
+            libblkid_rs_sys::blkid_find_dev_with_tag(
+                self.0,
+                type_cstring.as_ptr(),
+                value_cstring.as_ptr(),
+            )
+        })?;
+        Ok(BlkidDev::new(ptr))
+    }
 }
