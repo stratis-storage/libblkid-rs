@@ -42,5 +42,5 @@ pub use crate::{
     devno::BlkidDevno,
     err::{BlkidErr, Result},
     tag::{parse_tag_string, BlkidTagIter},
-    version::parse_version_string,
+    version::{get_library_version, parse_version_string},
 };
