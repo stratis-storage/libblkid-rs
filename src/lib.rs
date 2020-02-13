@@ -32,6 +32,7 @@ mod cache;
 pub mod consts;
 mod dev;
 mod devno;
+mod encode;
 mod err;
 mod tag;
 mod version;
@@ -40,6 +41,7 @@ pub use crate::{
     cache::BlkidCache,
     dev::{BlkidDev, BlkidDevIter},
     devno::BlkidDevno,
+    encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
     tag::{parse_tag_string, BlkidTagIter},
     version::{get_library_version, parse_version_string},

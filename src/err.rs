@@ -30,6 +30,8 @@ pub type Result<T> = std::result::Result<T, BlkidErr>;
 pub enum BlkidErr {
     /// Wraps `std::ffi::NulError`
     Null(std::ffi::NulError),
+    /// Wraps `std::ffi::IntoStringError`
+    IntoString(std::ffi::IntoStringError),
     /// A libblkid method returned a positive error code which means nothing
     PositiveReturnCode,
     /// A conversion failed
@@ -50,6 +52,7 @@ impl Display for BlkidErr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             BlkidErr::Null(ref e) => write!(f, "Null error during string conversion: {}", e),
+            BlkidErr::IntoString(ref e) => write!(f, "Could not convert C string to string: {}", e),
             BlkidErr::PositiveReturnCode => {
                 write!(f, "Positive return code found when <= 0 was expected")
             }
