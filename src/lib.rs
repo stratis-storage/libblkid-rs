@@ -45,6 +45,6 @@ pub use crate::{
     encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
     tag::{parse_tag_string, BlkidTagIter},
-    version::{get_library_version, parse_version_string},
     utils::send_uevent,
+    version::{get_library_version, parse_version_string},
 };

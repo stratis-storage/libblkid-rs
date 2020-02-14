@@ -2,17 +2,21 @@ use std::ffi::CString;
 
 use libc::{c_char, c_int};
 
-use crate::{Result, err::BlkidErr};
+use crate::{err::BlkidErr, Result};
 
 // Shared code for encoding methods
-fn string_shared<F>(string: &str, closure: F) -> Result<String> where F: Fn(&CString, &mut Vec<u8>) -> c_int {
+fn string_shared<F>(string: &str, closure: F) -> Result<String>
+where
+    F: Fn(&CString, &mut Vec<u8>) -> c_int,
+{
     let mut buffer = vec![0u8; string.len() * 4];
     let cstring = CString::new(string)?;
     if closure(&cstring, &mut buffer) != 0 {
         return Err(BlkidErr::InvalidConv);
     }
 
-    let first_null = buffer.iter()
+    let first_null = buffer
+        .iter()
         .position(|u| *u == 0)
         .ok_or_else(|| BlkidErr::Other("No null found in C string".to_string()))?;
     buffer.truncate(first_null);
@@ -22,31 +26,25 @@ fn string_shared<F>(string: &str, closure: F) -> Result<String> where F: Fn(&CSt
 
 /// Encode potentially unsafe characters in the given `string` parameter.
 pub fn encode_string(string: &str) -> Result<String> {
-    string_shared(
-        string,
-        |cstring, buffer| {
-            unsafe { libblkid_rs_sys::blkid_encode_string(
-                cstring.as_ptr(),
-                buffer.as_mut_ptr() as *mut c_char,
-                buffer.len(),
-            ) }
-        },
-    )
+    string_shared(string, |cstring, buffer| unsafe {
+        libblkid_rs_sys::blkid_encode_string(
+            cstring.as_ptr(),
+            buffer.as_mut_ptr() as *mut c_char,
+            buffer.len(),
+        )
+    })
 }
 
 /// Generate a safe string that allows ascii, hex-escaping, and utf8. Whitespaces
 /// become `_`.
 pub fn safe_string(string: &str) -> Result<String> {
-    string_shared(
-        string,
-        |cstring, buffer| {
-            unsafe { libblkid_rs_sys::blkid_safe_string(
-                cstring.as_ptr(),
-                buffer.as_mut_ptr() as *mut i8,
-                buffer.len(),
-            )}
-        }
-    )
+    string_shared(string, |cstring, buffer| unsafe {
+        libblkid_rs_sys::blkid_safe_string(
+            cstring.as_ptr(),
+            buffer.as_mut_ptr() as *mut i8,
+            buffer.len(),
+        )
+    })
 }
 
 #[cfg(test)]
