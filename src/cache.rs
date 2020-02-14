@@ -1,6 +1,7 @@
 use std::{
     ffi::{CStr, CString},
-    path::Path,
+    path::{Path, PathBuf},
+    ptr,
 };
 
 use either::Either;
@@ -124,5 +125,27 @@ impl BlkidCache {
             )
         })?;
         Ok(BlkidDev::new(ptr))
+    }
+
+    /// Find the path of a device matching a tag
+    pub fn evaluate_tag(&mut self, token: &str, value: &str, bypass_cache: bool) -> Result<PathBuf> {
+        let token_cstring = CString::new(token)?;
+        let value_cstring = CString::new(value)?;
+        let cache_ptr = if bypass_cache {
+            ptr::null_mut()
+        } else {
+            &mut self.0 as *mut _
+        };
+        let allocated_string = errno_ptr!(unsafe {
+            libblkid_rs_sys::blkid_evaluate_tag(
+                token_cstring.as_ptr(),
+                value_cstring.as_ptr(),
+                cache_ptr,
+            )
+        })?;
+        let rust_cstr = unsafe { CStr::from_ptr(allocated_string) };
+        let return_string = rust_cstr.to_str()?.to_string();
+        unsafe { libc::free(allocated_string as *mut libc::c_void) };
+        Ok(PathBuf::from(return_string))
     }
 }
