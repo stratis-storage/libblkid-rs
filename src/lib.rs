@@ -44,7 +44,7 @@ pub use crate::{
     devno::BlkidDevno,
     encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
-    tag::{parse_tag_string, BlkidTagIter},
+    tag::{evaluate_spec, evaluate_tag, parse_tag_string, BlkidTagIter},
     utils::send_uevent,
     version::{get_library_version, parse_version_string},
 };

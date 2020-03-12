@@ -1,7 +1,6 @@
 use std::{
     ffi::{CStr, CString},
-    path::{Path, PathBuf},
-    ptr,
+    path::Path,
 };
 
 use either::Either;
@@ -18,6 +17,10 @@ use crate::{
 pub struct BlkidCache(blkid_cache);
 
 impl BlkidCache {
+    pub(crate) fn as_mut_ptr(&mut self) -> *mut blkid_cache {
+        &mut self.0 as *mut _
+    }
+
     /// Save changes to cache file
     pub fn put_cache(&mut self) {
         unsafe { libblkid_rs_sys::blkid_put_cache(self.0) }
@@ -125,56 +128,5 @@ impl BlkidCache {
             )
         })?;
         Ok(BlkidDev::new(ptr))
-    }
-
-    fn evaluate(
-        &mut self,
-        tag_or_tuple: Either<(&str, &str), &str>,
-        bypass_cache: bool,
-    ) -> Result<PathBuf> {
-        let cache_ptr = if bypass_cache {
-            ptr::null_mut()
-        } else {
-            &mut self.0 as *mut _
-        };
-        let allocated_string = match tag_or_tuple {
-            Either::Left((token, value)) => {
-                let token_cstring = CString::new(token)?;
-                let value_cstring = CString::new(value)?;
-                errno_ptr!(unsafe {
-                    libblkid_rs_sys::blkid_evaluate_tag(
-                        token_cstring.as_ptr(),
-                        value_cstring.as_ptr(),
-                        cache_ptr,
-                    )
-                })?
-            }
-            Either::Right(spec) => {
-                let spec_cstring = CString::new(spec)?;
-                errno_ptr!(unsafe {
-                    libblkid_rs_sys::blkid_evaluate_spec(spec_cstring.as_ptr(), cache_ptr)
-                })?
-            }
-        };
-        let rust_cstr = unsafe { CStr::from_ptr(allocated_string) };
-        let return_string = rust_cstr.to_str()?.to_string();
-        unsafe { libc::free(allocated_string as *mut libc::c_void) };
-        Ok(PathBuf::from(return_string))
-    }
-
-    /// Find the path of a device matching a tag
-    pub fn evaluate_tag(
-        &mut self,
-        token: &str,
-        value: &str,
-        bypass_cache: bool,
-    ) -> Result<PathBuf> {
-        self.evaluate(Either::Left((token, value)), bypass_cache)
-    }
-
-    /// Find the path of a device matching an unparsed tag or a path to a device mapper
-    /// node such as `/dev/dm-0`
-    pub fn evaluate_spec(&mut self, tag_or_dm_path: &str, bypass_cache: bool) -> Result<PathBuf> {
-        self.evaluate(Either::Right(tag_or_dm_path), bypass_cache)
     }
 }

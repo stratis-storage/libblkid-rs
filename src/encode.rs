@@ -9,7 +9,10 @@ fn string_shared<F>(string: &str, closure: F) -> Result<String>
 where
     F: Fn(&CString, &mut Vec<u8>) -> c_int,
 {
+    // Per the documentation, the maximum buffer is 4 times
+    // the length of the string.
     let mut buffer = vec![0u8; string.len() * 4];
+
     let cstring = CString::new(string)?;
     if closure(&cstring, &mut buffer) != 0 {
         return Err(BlkidErr::InvalidConv);
