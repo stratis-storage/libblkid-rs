@@ -34,6 +34,7 @@ mod dev;
 mod devno;
 mod encode;
 mod err;
+mod probe;
 mod tag;
 mod utils;
 mod version;
@@ -44,7 +45,8 @@ pub use crate::{
     devno::BlkidDevno,
     encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
-    tag::{evaluate_spec, evaluate_tag, parse_tag_string, BlkidTagIter},
-    utils::send_uevent,
+    probe::BlkidProbe,
+    tag::{parse_tag_string, BlkidTagIter},
+    utils::{evaluate_spec, evaluate_tag, send_uevent},
     version::{get_library_version, parse_version_string},
 };
