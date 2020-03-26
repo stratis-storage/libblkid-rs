@@ -39,13 +39,16 @@ mod tag;
 mod utils;
 mod version;
 
+pub use libblkid_rs_sys::blkid_loff_t;
+
 pub use crate::{
     cache::BlkidCache,
+    consts::*,
     dev::{BlkidDev, BlkidDevIter},
     devno::BlkidDevno,
     encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
-    probe::BlkidProbe,
+    probe::{get_superblock_name, is_known_fs_type, BlkidProbe},
     tag::{parse_tag_string, BlkidTagIter},
     utils::{evaluate_spec, evaluate_tag, send_uevent},
     version::{get_library_version, parse_version_string},

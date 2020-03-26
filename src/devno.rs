@@ -6,6 +6,10 @@ use crate::err::Result;
 pub struct BlkidDevno(libc::dev_t);
 
 impl BlkidDevno {
+    pub(crate) fn new(devno: libc::dev_t) -> Self {
+        BlkidDevno(devno)
+    }
+
     /// Get device name from device number
     pub fn to_devname(&self) -> Result<&str> {
         let ret = errno_ptr!(unsafe { libblkid_rs_sys::blkid_devno_to_devname(self.0) })?;
