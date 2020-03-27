@@ -6,7 +6,12 @@ use std::{
     ptr,
 };
 
-use crate::{consts::BlkidUsageFlags, devno::BlkidDevno, err::BlkidErr, Result};
+use crate::{
+    consts::{BlkidFltr, BlkidSublksFlags, BlkidUsageFlags},
+    devno::BlkidDevno,
+    err::BlkidErr,
+    Result,
+};
 
 /// A structure for probing block devices.
 pub struct BlkidProbe(libblkid_rs_sys::blkid_probe);
@@ -87,6 +92,54 @@ impl BlkidProbe {
     /// Get a file descriptor associated with the given device.
     pub fn get_fd(&self) -> Result<RawFd> {
         errno_with_ret!(unsafe { libblkid_rs_sys::blkid_probe_get_fd(self.0) })
+    }
+
+    /// Enable superblock probing.
+    pub fn enable_superblocks(&mut self, enable: bool) -> Result<()> {
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_enable_superblocks(self.0, if enable { 1 } else { 0 })
+        })
+    }
+
+    /// Set the superblock probing flags.
+    pub fn set_superblock_flags(&mut self, flags: BlkidSublksFlags) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_set_superblocks_flags(self.0, flags.into()) })
+    }
+
+    /// Reset the superblock probing filter.
+    pub fn reset_superblock_filter(&mut self) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_reset_superblocks_filter(self.0) })
+    }
+
+    /// Invert the superblock probing filter.
+    pub fn invert_superblock_filter(&mut self) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_invert_superblocks_filter(self.0) })
+    }
+
+    /// Filter superblock types based on the provided flags and name.
+    pub fn filter_superblock_type(&mut self, flag: BlkidFltr, names: &[&str]) -> Result<()> {
+        let cstring_vec: Vec<_> = names.iter().map(|name| CString::new(*name)).collect();
+        if cstring_vec
+            .iter()
+            .any(|cstring_result| cstring_result.is_err())
+        {
+            return Err(BlkidErr::InvalidConv);
+        }
+        let checked_cstring_vec: Vec<_> =
+            cstring_vec.into_iter().filter_map(|cs| cs.ok()).collect();
+        let mut ptr_vec: Vec<_> = checked_cstring_vec
+            .iter()
+            .map(|cstring| cstring.as_ptr() as *mut _)
+            .collect();
+        ptr_vec.push(ptr::null_mut());
+
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_filter_superblocks_type(
+                self.0,
+                flag.into(),
+                ptr_vec.as_mut_ptr(),
+            )
+        })
     }
 }
 

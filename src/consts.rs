@@ -37,3 +37,45 @@ flags!(
     BlkidUsageFlags <=> c_int,
     BlkidUsageFlag
 );
+
+consts_enum_conv!(
+    /// Flags for superblock probing
+    BlkidSublks <=> c_int,
+    /// Read label from superblock
+    Label => libblkid_rs_sys::BLKID_SUBLKS_LABEL as c_int,
+    /// Read label from superblock and define `LABEL_RAW` value
+    Labelraw => libblkid_rs_sys::BLKID_SUBLKS_LABELRAW as c_int,
+    /// Read UUID from superblock
+    Uuid => libblkid_rs_sys::BLKID_SUBLKS_UUID as c_int,
+    /// Read UUID from superblock and define `UUID_RAW` value
+    Uuidraw => libblkid_rs_sys::BLKID_SUBLKS_UUID as c_int,
+    /// Read type from superblock and define `TYPE` value
+    Type => libblkid_rs_sys::BLKID_SUBLKS_TYPE as c_int,
+    /// Read compatible filesystem type from superblock
+    Sectype => libblkid_rs_sys::BLKID_SUBLKS_SECTYPE as c_int,
+    /// Read usage from superblock and define `USAGE` value
+    Usage => libblkid_rs_sys::BLKID_SUBLKS_USAGE as c_int,
+    /// Read filesystem version from superblock
+    Version => libblkid_rs_sys::BLKID_SUBLKS_VERSION as c_int,
+    /// Read superblock magic number and define `SBMAGIC` and `SBMAGIC_OFFSET`
+    Magic => libblkid_rs_sys::BLKID_SUBLKS_MAGIC as c_int,
+    /// Allow a bad checksum
+    Badcsum => libblkid_rs_sys::BLKID_SUBLKS_BADCSUM as c_int,
+    /// Default flags
+    Default => libblkid_rs_sys::BLKID_SUBLKS_DEFAULT as c_int
+);
+
+flags!(
+    /// Set of `BlkidSublks` flags
+    BlkidSublksFlags <=> c_int,
+    BlkidSublks
+);
+
+consts_enum_conv!(
+    /// Constants for probing superblock type.
+    BlkidFltr <=> c_int,
+    /// Probe for all names that are not in the list that was provided.
+    Notin => libblkid_rs_sys::BLKID_FLTR_NOTIN as c_int,
+    /// Probe for all names that are in the list that was provided.
+    Onlyin => libblkid_rs_sys::BLKID_FLTR_ONLYIN as c_int
+);
