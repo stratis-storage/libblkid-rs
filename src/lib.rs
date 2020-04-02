@@ -36,6 +36,7 @@ mod encode;
 mod err;
 mod probe;
 mod tag;
+mod topology;
 mod utils;
 mod version;
 
@@ -48,8 +49,12 @@ pub use crate::{
     devno::BlkidDevno,
     encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
-    probe::{get_superblock_name, is_known_fs_type, BlkidProbe},
+    probe::{
+        get_partition_name, get_superblock_name, is_known_fs_type, is_known_partition_type,
+        BlkidProbe,
+    },
     tag::{parse_tag_string, BlkidTagIter},
+    topology::BlkidTopology,
     utils::{evaluate_spec, evaluate_tag, send_uevent},
     version::{get_library_version, parse_version_string},
 };

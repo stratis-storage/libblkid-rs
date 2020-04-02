@@ -10,6 +10,7 @@ use crate::{
     consts::{BlkidFltr, BlkidSublksFlags, BlkidUsageFlags},
     devno::BlkidDevno,
     err::BlkidErr,
+    topology::BlkidTopology,
     Result,
 };
 
@@ -141,6 +142,52 @@ impl BlkidProbe {
             )
         })
     }
+
+    /// Filter devices based on the usages specified in the `usage` parameter.
+    pub fn filter_superblock_usage(
+        &mut self,
+        flag: BlkidFltr,
+        usage: BlkidUsageFlags,
+    ) -> Result<()> {
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_filter_superblocks_usage(self.0, flag.into(), usage.into())
+        })
+    }
+
+    /// Enable topology probing.
+    pub fn enable_topology(&mut self, enable: bool) -> Result<()> {
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_enable_topology(self.0, if enable { 1 } else { 0 })
+        })
+    }
+
+    /// Get the blkid topology of devices.
+    ///
+    /// The topology will be overwritten with each call to this method per the
+    /// libblkid documentation. To use multiple topologies simultaneously,
+    /// you must use multiple `BlkidProbe` structs.
+    pub fn get_topology(&mut self) -> Result<BlkidTopology> {
+        Ok(BlkidTopology::new(errno_ptr!(unsafe {
+            libblkid_rs_sys::blkid_probe_get_topology(self.0)
+        })?))
+    }
+
+    /// Enable partition probing.
+    pub fn enable_partitions(&mut self, enable: bool) -> Result<()> {
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_enable_partitions(self.0, if enable { 1 } else { 0 })
+        })
+    }
+
+    /// Reset the partition filter.
+    pub fn reset_partition_filter(&mut self) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_reset_partitions_filter(self.0) })
+    }
+
+    /// Invert the partition filter.
+    pub fn invert_partition_filter(&mut self) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_invert_partitions_filter(self.0) })
+    }
 }
 
 impl Drop for BlkidProbe {
@@ -187,4 +234,26 @@ pub fn get_superblock_name(
     let name_option = Some(unsafe { CStr::from_ptr(name_ptr) }.to_str()?);
     let flags_option = Some(BlkidUsageFlags::try_from(flags)?);
     Ok((name_option, flags_option))
+}
+
+/// Checks whether the name provided is a known partition type.
+pub fn is_known_partition_type(type_: &str) -> bool {
+    let type_cstring = match CString::new(type_) {
+        Ok(s) => s,
+        Err(_) => return false,
+    };
+    (unsafe { libblkid_rs_sys::blkid_known_pttype(type_cstring.as_ptr()) }) != 0
+}
+
+/// Get the name of a partition type at the given index in the libblkid
+/// internal state.
+///
+/// This method in libblkid exposes implementation details of the library. There
+/// is no way to map indicies to types without duplicating logic inside and outside
+/// of the library.
+pub fn get_partition_name(index: usize) -> Result<&'static str> {
+    let mut name_ptr: *const libc::c_char = ptr::null();
+    errno!(unsafe { libblkid_rs_sys::blkid_partitions_get_name(index, &mut name_ptr as *mut _) })?;
+    let name = unsafe { CStr::from_ptr(name_ptr) }.to_str()?;
+    Ok(name)
 }
