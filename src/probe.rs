@@ -10,6 +10,7 @@ use crate::{
     consts::{BlkidFltr, BlkidSublksFlags, BlkidUsageFlags},
     devno::BlkidDevno,
     err::BlkidErr,
+    partition::BlkidPartlist,
     topology::BlkidTopology,
     Result,
 };
@@ -187,6 +188,42 @@ impl BlkidProbe {
     /// Invert the partition filter.
     pub fn invert_partition_filter(&mut self) -> Result<()> {
         errno!(unsafe { libblkid_rs_sys::blkid_probe_invert_partitions_filter(self.0) })
+    }
+
+    /// Probe for partitions using the specified partition types.
+    ///
+    /// This method can either probe for partitions with partition types specified
+    /// in `names` or only for partition types not found in `names`.
+    pub fn filter_partition_types(&mut self, flag: BlkidFltr, names: &[&str]) -> Result<()> {
+        let cstring_vec: Vec<_> = names.iter().map(|name| CString::new(*name)).collect();
+        if cstring_vec
+            .iter()
+            .any(|cstring_result| cstring_result.is_err())
+        {
+            return Err(BlkidErr::InvalidConv);
+        }
+        let checked_cstring_vec: Vec<_> =
+            cstring_vec.into_iter().filter_map(|cs| cs.ok()).collect();
+        let mut ptr_vec: Vec<_> = checked_cstring_vec
+            .iter()
+            .map(|cstring| cstring.as_ptr() as *mut _)
+            .collect();
+        ptr_vec.push(ptr::null_mut());
+
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_filter_partitions_type(
+                self.0,
+                flag.into(),
+                ptr_vec.as_mut_ptr(),
+            )
+        })
+    }
+
+    /// Get list of probed partitions.
+    pub fn get_partitions(&mut self) -> Result<BlkidPartlist> {
+        Ok(BlkidPartlist::new(errno_ptr!(unsafe {
+            libblkid_rs_sys::blkid_probe_get_partitions(self.0)
+        })?))
     }
 }
 

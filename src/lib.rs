@@ -34,6 +34,7 @@ mod dev;
 mod devno;
 mod encode;
 mod err;
+mod partition;
 mod probe;
 mod tag;
 mod topology;
@@ -49,6 +50,7 @@ pub use crate::{
     devno::BlkidDevno,
     encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
+    partition::{BlkidPartition, BlkidPartlist, BlkidParttable},
     probe::{
         get_partition_name, get_superblock_name, is_known_fs_type, is_known_partition_type,
         BlkidProbe,
