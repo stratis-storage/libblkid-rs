@@ -10,6 +10,25 @@ impl BlkidDevno {
         BlkidDevno(devno)
     }
 
+    pub(crate) fn as_dev_t(&self) -> libc::dev_t {
+        self.0
+    }
+
+    /// Create a `BlkidDevno` from major and minor numbers.
+    pub fn from_device_numbers(major: libc::c_uint, minor: libc::c_uint) -> Self {
+        BlkidDevno(unsafe { libc::makedev(major, minor) })
+    }
+
+    /// Get the major number.
+    pub fn major(&self) -> libc::c_uint {
+        unsafe { libc::major(self.0) }
+    }
+
+    /// Get the minor number.
+    pub fn minor(&self) -> libc::c_uint {
+        unsafe { libc::minor(self.0) }
+    }
+
     /// Get device name from device number
     pub fn to_devname(&self) -> Result<&str> {
         let ret = errno_ptr!(unsafe { libblkid_rs_sys::blkid_devno_to_devname(self.0) })?;
