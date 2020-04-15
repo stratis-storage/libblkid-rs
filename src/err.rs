@@ -42,6 +42,8 @@ pub enum BlkidErr {
     FromUTF8(std::string::FromUtf8Error),
     /// IO error
     IO(std::io::Error),
+    /// UUID error
+    Uuid(uuid::Error),
     /// An unspecified error type and an error message providing more information
     Other(String),
     /// An error code was returned by libblkid
@@ -60,6 +62,7 @@ impl Display for BlkidErr {
             BlkidErr::UTF8(ref e) => write!(f, "UTF8 error: {}", e),
             BlkidErr::FromUTF8(ref e) => write!(f, "UTF8 conversion error: {}", e),
             BlkidErr::IO(ref e) => write!(f, "An IO error occurred: {}", e),
+            BlkidErr::Uuid(ref e) => write!(f, "A UUID error occurred: {}", e),
             BlkidErr::Other(ref s) => write!(f, "{}", s),
             BlkidErr::LibErr => write!(f, "libblkid returned an error code indicating an operation could not be completed successfully"),
         }

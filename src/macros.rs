@@ -19,6 +19,17 @@ macro_rules! errno_ptr {
     }};
 }
 
+macro_rules! option_ptr {
+    ($ret_expr:expr) => {{
+        let ptr = $ret_expr;
+        if ptr.is_null() {
+            None
+        } else {
+            Some(ptr)
+        }
+    }};
+}
+
 macro_rules! errno_with_ret {
     ($ret_expr:expr) => {
         match $ret_expr {

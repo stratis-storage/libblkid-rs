@@ -41,6 +41,8 @@ mod topology;
 mod utils;
 mod version;
 
+pub use uuid::Uuid;
+
 pub use libblkid_rs_sys::blkid_loff_t;
 
 pub use crate::{
@@ -57,6 +59,6 @@ pub use crate::{
     },
     tag::{parse_tag_string, BlkidTagIter},
     topology::BlkidTopology,
-    utils::{evaluate_spec, evaluate_tag, send_uevent},
+    utils::{evaluate_spec, evaluate_tag, send_uevent, BlkidSectors},
     version::{get_library_version, parse_version_string},
 };

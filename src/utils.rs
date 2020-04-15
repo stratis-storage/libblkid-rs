@@ -8,6 +8,22 @@ use either::Either;
 
 use crate::{cache::BlkidCache, Result};
 
+const SECTOR_SIZE: libblkid_rs_sys::blkid_loff_t = 512;
+
+/// A struct representing a count with units of sectors.
+pub struct BlkidSectors(libblkid_rs_sys::blkid_loff_t);
+
+impl BlkidSectors {
+    pub(crate) fn new(num: libblkid_rs_sys::blkid_loff_t) -> Self {
+        BlkidSectors(num)
+    }
+
+    /// Return the number of bytes represented by this number of disk sectors.
+    pub fn bytes(&self) -> libblkid_rs_sys::blkid_loff_t {
+        self.0 * SECTOR_SIZE
+    }
+}
+
 /// Send a uevent to a device specified by the device path
 pub fn send_uevent(dev: &Path, action: &str) -> Result<()> {
     let dev_cstring = CString::new(dev.display().to_string())?;
