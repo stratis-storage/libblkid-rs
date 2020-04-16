@@ -6,7 +6,7 @@ use std::{
 
 use either::Either;
 
-use crate::{cache::BlkidCache, Result};
+use crate::{cache::BlkidCache, err::BlkidErr, Result};
 
 const SECTOR_SIZE: libblkid_rs_sys::blkid_loff_t = 512;
 
@@ -19,8 +19,39 @@ impl BlkidSectors {
     }
 
     /// Return the number of bytes represented by this number of disk sectors.
-    pub fn bytes(&self) -> libblkid_rs_sys::blkid_loff_t {
-        self.0 * SECTOR_SIZE
+    pub fn bytes(&self) -> BlkidBytes {
+        BlkidBytes(self.0 * SECTOR_SIZE)
+    }
+}
+
+impl AsRef<libblkid_rs_sys::blkid_loff_t> for BlkidSectors {
+    fn as_ref(&self) -> &libblkid_rs_sys::blkid_loff_t {
+        &self.0
+    }
+}
+
+/// A struct repsenting a count with units of bytes.
+pub struct BlkidBytes(libblkid_rs_sys::blkid_loff_t);
+
+impl BlkidBytes {
+    pub(crate) fn new(num: libblkid_rs_sys::blkid_loff_t) -> Self {
+        BlkidBytes(num)
+    }
+
+    /// Return the number of sectors repesented by this number of bytes or
+    /// an error if the number of bytes is not divisible by the sector size.
+    pub fn sectors(&self) -> Result<BlkidSectors> {
+        if self.0 % SECTOR_SIZE != 0 {
+            Err(BlkidErr::InvalidConv)
+        } else {
+            Ok(BlkidSectors(self.0 / SECTOR_SIZE))
+        }
+    }
+}
+
+impl AsRef<libblkid_rs_sys::blkid_loff_t> for BlkidBytes {
+    fn as_ref(&self) -> &libblkid_rs_sys::blkid_loff_t {
+        &self.0
     }
 }
 

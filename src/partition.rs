@@ -2,10 +2,51 @@ use std::ffi::CStr;
 
 use uuid::Uuid;
 
-use crate::{devno::BlkidDevno, err::BlkidErr, utils::BlkidSectors, Result};
+use crate::{
+    devno::BlkidDevno,
+    err::BlkidErr,
+    utils::{BlkidBytes, BlkidSectors},
+    Result,
+};
 
 /// A handle for working with partition tables.
 pub struct BlkidParttable(libblkid_rs_sys::blkid_parttable);
+
+impl BlkidParttable {
+    /// Get the type of the partition table.
+    pub fn get_type(&self) -> Result<String> {
+        Ok(unsafe {
+            CStr::from_ptr(errno_ptr!(libblkid_rs_sys::blkid_parttable_get_type(
+                self.0
+            ))?)
+        }
+        .to_str()?
+        .to_string())
+    }
+
+    /// Get the ID of the partition table. Given that this could be a UUID or some
+    /// other form of identifier, the return value is a `String` to cover all cases.
+    pub fn get_id(&self) -> Result<String> {
+        Ok(
+            unsafe { CStr::from_ptr(errno_ptr!(libblkid_rs_sys::blkid_parttable_get_id(self.0))?) }
+                .to_str()?
+                .to_string(),
+        )
+    }
+
+    /// Get the offset of the partition table in bytes.
+    pub fn get_offset(&self) -> Result<BlkidBytes> {
+        Ok(BlkidBytes::new(errno_with_ret!(unsafe {
+            libblkid_rs_sys::blkid_parttable_get_offset(self.0)
+        })?))
+    }
+
+    /// Get the parent partition in the case of nested partition tables.
+    pub fn get_parent(&self) -> Option<BlkidPartition> {
+        option_ptr!(unsafe { libblkid_rs_sys::blkid_parttable_get_parent(self.0) })
+            .map(BlkidPartition)
+    }
+}
 
 /// A handle for working with a probed partition.
 pub struct BlkidPartition(libblkid_rs_sys::blkid_partition);
@@ -53,6 +94,51 @@ impl BlkidPartition {
     /// Get the start of the partition in units of sectors.
     pub fn get_start(&self) -> BlkidSectors {
         BlkidSectors::new(unsafe { libblkid_rs_sys::blkid_partition_get_start(self.0) })
+    }
+
+    /// Get the size of the partition in units of sectors.
+    pub fn get_size(&self) -> BlkidSectors {
+        BlkidSectors::new(unsafe { libblkid_rs_sys::blkid_partition_get_size(self.0) })
+    }
+
+    /// Get the numberic partition type. Use `get_type_string` for the `String`
+    /// representation.
+    pub fn get_type(&self) -> libc::c_int {
+        unsafe { libblkid_rs_sys::blkid_partition_get_type(self.0) }
+    }
+
+    /// Get the string representation of the partition type.
+    pub fn get_type_string(&self) -> Result<String> {
+        Ok(unsafe {
+            CStr::from_ptr(errno_ptr!(
+                libblkid_rs_sys::blkid_partition_get_type_string(self.0)
+            )?)
+        }
+        .to_str()?
+        .to_string())
+    }
+
+    /// Get the flags for the given partition.
+    ///
+    /// This method is not typed as the documentation does not specify which
+    /// constants are used as flags.
+    pub fn get_flags(&self) -> libc::c_ulonglong {
+        unsafe { libblkid_rs_sys::blkid_partition_get_flags(self.0) }
+    }
+
+    /// Check whether the given partition is logical.
+    pub fn is_logical(&self) -> bool {
+        (unsafe { libblkid_rs_sys::blkid_partition_is_logical(self.0) }) != 0
+    }
+
+    /// Check whether the given partition is an extended partition.
+    pub fn is_extended(&self) -> bool {
+        (unsafe { libblkid_rs_sys::blkid_partition_is_extended(self.0) }) != 0
+    }
+
+    /// Check whether the given partition is a primary partition.
+    pub fn is_primary(&self) -> bool {
+        (unsafe { libblkid_rs_sys::blkid_partition_is_primary(self.0) }) != 0
     }
 }
 
