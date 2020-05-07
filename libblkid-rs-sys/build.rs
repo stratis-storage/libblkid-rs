@@ -1,11 +1,11 @@
-use bindgen;
+use bindgen::Builder;
 
 use std::{env, path::PathBuf};
 
 fn main() {
     println!("cargo:rustc-link-lib=blkid");
 
-    let bindings = bindgen::Builder::default()
+    let bindings = Builder::default()
         .header("header.h")
         .generate()
         .expect("Unable to generate bindings");

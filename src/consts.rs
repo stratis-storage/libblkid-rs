@@ -79,3 +79,12 @@ consts_enum_conv!(
     /// Probe for all names that are in the list that was provided.
     Onlyin => libblkid_rs_sys::BLKID_FLTR_ONLYIN as c_int
 );
+
+consts_enum_conv!(
+    /// Low level tag probing return value
+    BlkidProbeRet <=> c_int,
+    /// Successful probe
+    Success => 0,
+    /// Done probing
+    Done => 1
+);

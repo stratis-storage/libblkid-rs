@@ -7,7 +7,7 @@ use std::{
 };
 
 use crate::{
-    consts::{BlkidFltr, BlkidSublksFlags, BlkidUsageFlags},
+    consts::{BlkidFltr, BlkidProbeRet, BlkidSublksFlags, BlkidUsageFlags},
     devno::BlkidDevno,
     err::BlkidErr,
     partition::BlkidPartlist,
@@ -224,6 +224,13 @@ impl BlkidProbe {
         Ok(BlkidPartlist::new(errno_ptr!(unsafe {
             libblkid_rs_sys::blkid_probe_get_partitions(self.0)
         })?))
+    }
+
+    /// Probe for signatures at the tag level (`TAG=VALUE`). Superblocks will
+    /// be probed by default.
+    pub fn do_probe(&mut self) -> Result<BlkidProbeRet> {
+        errno_with_ret!(unsafe { libblkid_rs_sys::blkid_do_probe(self.0) })
+            .and_then(BlkidProbeRet::try_from)
     }
 }
 
