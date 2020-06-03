@@ -88,3 +88,23 @@ consts_enum_conv!(
     /// Done probing
     Done => 1
 );
+
+consts_enum_conv!(
+    /// Low level tag probing return value
+    BlkidSafeprobeRet <=> c_int,
+    /// Successful probe
+    Success => 0,
+    /// Nothing detected
+    None => 1,
+    /// Ambiguous result detected
+    Ambiguous => -2
+);
+
+consts_enum_conv!(
+    /// Low level tag probing return value
+    BlkidFullprobeRet <=> c_int,
+    /// Successful probe
+    Success => 0,
+    /// Nothing detected
+    None => 1
+);

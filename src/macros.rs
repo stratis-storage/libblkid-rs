@@ -1,3 +1,21 @@
+macro_rules! str_ptr_to_owned {
+    ($str_ptr:expr) => {
+        unsafe { std::ffi::CStr::from_ptr($str_ptr) }
+            .to_str()?
+            .to_string()
+    };
+}
+
+macro_rules! str_ptr_with_size_to_owned {
+    ($str_ptr:expr, $size:expr) => {
+        std::ffi::CStr::from_bytes_with_nul(unsafe {
+            std::slice::from_raw_parts($str_ptr as *const u8, $size)
+        })?
+        .to_str()?
+        .to_string()
+    };
+}
+
 macro_rules! errno {
     ($ret_expr:expr) => {
         match $ret_expr {

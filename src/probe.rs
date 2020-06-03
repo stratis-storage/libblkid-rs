@@ -7,7 +7,10 @@ use std::{
 };
 
 use crate::{
-    consts::{BlkidFltr, BlkidProbeRet, BlkidSublksFlags, BlkidUsageFlags},
+    consts::{
+        BlkidFltr, BlkidFullprobeRet, BlkidProbeRet, BlkidSafeprobeRet, BlkidSublksFlags,
+        BlkidUsageFlags,
+    },
     devno::BlkidDevno,
     err::BlkidErr,
     partition::BlkidPartlist,
@@ -227,10 +230,95 @@ impl BlkidProbe {
     }
 
     /// Probe for signatures at the tag level (`TAG=VALUE`). Superblocks will
-    /// be probed by default.
+    /// be probed by default. This method calls only one function call at a time
+    /// and should be called in a loop to get results from all probing chains.
     pub fn do_probe(&mut self) -> Result<BlkidProbeRet> {
         errno_with_ret!(unsafe { libblkid_rs_sys::blkid_do_probe(self.0) })
             .and_then(BlkidProbeRet::try_from)
+    }
+
+    /// Probes all enabled chains and checks for ambiguous results.
+    pub fn do_safeprobe(&mut self) -> Result<BlkidSafeprobeRet> {
+        let ret = unsafe { libblkid_rs_sys::blkid_do_safeprobe(self.0) };
+        if ret == -1 {
+            Err(BlkidErr::LibErr)
+        } else {
+            Ok(BlkidSafeprobeRet::try_from(ret)?)
+        }
+    }
+
+    /// Same as `do_safeprobe` but does not check for collisions.
+    pub fn do_fullprobe(&mut self) -> Result<BlkidFullprobeRet> {
+        errno_with_ret!(unsafe { libblkid_rs_sys::blkid_do_fullprobe(self.0) })
+            .and_then(BlkidFullprobeRet::try_from)
+    }
+
+    /// Number of values in probe
+    pub fn numof_values(&self) -> Result<usize> {
+        errno_with_ret!(unsafe { libblkid_rs_sys::blkid_probe_numof_values(self.0) })
+            .map(|v| v as usize)
+    }
+
+    /// Get the tag and value of an entry by the index in the range
+    /// `0..(self.numof_values())`.
+    pub fn get_value(&self, num: libc::c_uint) -> Result<(String, String)> {
+        let num_values = self.numof_values()?;
+        if num as usize >= num_values {
+            return Err(BlkidErr::Other(format!(
+                "num must be between 0 and {}",
+                num_values - 1
+            )));
+        }
+
+        let mut name: *const libc::c_char = ptr::null();
+        let mut data: *const libc::c_char = ptr::null();
+        let mut size: usize = 0;
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_get_value(
+                self.0,
+                num as libc::c_int,
+                &mut name as *mut _,
+                &mut data as *mut _,
+                &mut size as *mut _,
+            )
+        })?;
+        let name = str_ptr_to_owned!(name);
+        let data = str_ptr_with_size_to_owned!(data, size);
+        Ok((name, data))
+    }
+
+    /// Get the value for a tag with the given name.
+    pub fn lookup_value(&self, name: &str) -> Result<String> {
+        let name_cstring = CString::new(name)?;
+
+        let mut data: *const libc::c_char = ptr::null();
+        let mut size: usize = 0;
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_lookup_value(
+                self.0,
+                name_cstring.as_ptr(),
+                &mut data as *mut _,
+                &mut size as *mut _,
+            )
+        })?;
+        let data = str_ptr_with_size_to_owned!(data, size);
+        Ok(data)
+    }
+
+    /// Check whether the given name exists in a probe.
+    pub fn has_value(&self, name: &str) -> Result<bool> {
+        let name_cstring = CString::new(name)?;
+        Ok((unsafe { libblkid_rs_sys::blkid_probe_has_value(self.0, name_cstring.as_ptr()) }) != 0)
+    }
+
+    /// Wipe the current probed block signature.
+    pub fn do_wipe(&mut self, dry_run: bool) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_do_wipe(self.0, if dry_run { 1 } else { 0 }) })
+    }
+
+    /// Set the probing on step back on the probing chain.
+    pub fn step_back(&mut self) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_step_back(self.0) })
     }
 }
 
