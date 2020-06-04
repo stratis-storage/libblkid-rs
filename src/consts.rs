@@ -108,3 +108,30 @@ consts_enum_conv!(
     /// Nothing detected
     None => 1
 );
+
+consts_enum_conv!(
+    /// Probe request flags
+    BlkidProbreqFlag <=> c_int,
+    #[allow(missing_docs)]
+    Label => libblkid_rs_sys::BLKID_PROBREQ_LABEL as i32,
+    #[allow(missing_docs)]
+    Labelraw => libblkid_rs_sys::BLKID_PROBREQ_LABELRAW as i32,
+    #[allow(missing_docs)]
+    Uuid => libblkid_rs_sys::BLKID_PROBREQ_UUID as i32,
+    #[allow(missing_docs)]
+    Uuidraw => libblkid_rs_sys::BLKID_PROBREQ_UUIDRAW as i32,
+    #[allow(missing_docs)]
+    Type => libblkid_rs_sys::BLKID_PROBREQ_TYPE as i32,
+    #[allow(missing_docs)]
+    Sectype => libblkid_rs_sys::BLKID_PROBREQ_SECTYPE as i32,
+    #[allow(missing_docs)]
+    Usage => libblkid_rs_sys::BLKID_PROBREQ_USAGE as i32,
+    #[allow(missing_docs)]
+    Version => libblkid_rs_sys::BLKID_PROBREQ_VERSION as i32
+);
+
+flags!(
+    /// Set of flags of type `BlkidProbreqFlag`
+    BlkidProbreqFlags <=> c_int,
+    BlkidProbreqFlag
+);
