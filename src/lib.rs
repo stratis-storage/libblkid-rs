@@ -30,6 +30,8 @@ mod macros;
 mod cache;
 /// Module containing all typed constants
 pub mod consts;
+#[cfg(feature = "deprecated")]
+mod deprecated;
 mod dev;
 mod devno;
 mod encode;
