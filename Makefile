@@ -7,6 +7,9 @@ DENY = -D warnings -D future-incompatible -D unused ${RUST_2018_IDIOMS}
 build:
 	RUSTFLAGS="${DENY}" cargo build
 
+build-deprecated:
+	RUSTFLAGS="${DENY}" cargo build --features=deprecated
+
 clippy:
 	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow
 

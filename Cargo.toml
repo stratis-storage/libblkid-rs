@@ -12,3 +12,7 @@ path = "./libblkid-rs-sys"
 libc = "0.2"
 either = "1.5"
 uuid = "0.8"
+
+[features]
+default = []
+deprecated = []
