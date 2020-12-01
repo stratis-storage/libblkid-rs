@@ -77,8 +77,8 @@ impl BlkidDevIter {
         errno!(unsafe {
             libblkid_rs_sys::blkid_dev_set_search(
                 self.0,
-                search_type_cstring.as_ptr(),
-                search_value_cstring.as_ptr(),
+                search_type_cstring.as_ptr() as *mut _,
+                search_value_cstring.as_ptr() as *mut _,
             )
         })?;
         Ok(self)

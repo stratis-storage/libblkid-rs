@@ -4,6 +4,12 @@ RUST_2018_IDIOMS = -D bare-trait-objects \
 
 DENY = -D warnings -D future-incompatible -D unused ${RUST_2018_IDIOMS}
 
+${HOME}/.cargo/bin/cargo-audit:
+	cargo install cargo-audit
+
+audit: ${HOME}/.cargo/bin/cargo-audit
+	PATH=${HOME}/.cargo/bin:${PATH} cargo audit -D warnings
+
 build:
 	RUSTFLAGS="${DENY}" cargo build
 
@@ -17,6 +23,9 @@ docs-rust:
 	cargo doc --no-deps --package libblkid-rs --package libblkid-rs-sys
 
 docs-travis: docs-rust
+
+yamllint:
+	yamllint --strict .github/workflows/main.yml
 
 fmt:
 	cargo fmt
@@ -39,3 +48,4 @@ test:
 	fmt-travis
 	release
 	test
+	yamllint
