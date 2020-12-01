@@ -18,6 +18,9 @@ docs-rust:
 
 docs-travis: docs-rust
 
+yamllint:
+	yamllint --strict .github/workflows/main.yml
+
 fmt:
 	cargo fmt
 
@@ -39,3 +42,4 @@ test:
 	fmt-travis
 	release
 	test
+	yamllint
