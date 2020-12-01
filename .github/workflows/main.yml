@@ -50,7 +50,7 @@ jobs:
           sudo apt-get -q update
           sudo apt-get -y install libblkid-dev
       - name: Test ${{ matrix.task }} on ${{ matrix.toolchain }} toolchain
-        run: ${{ matrix.task }}
+        run: make -f Makefile ${{ matrix.task }}
 
   # ALLOWED FAILURES
   allowed_failures:
