@@ -35,8 +35,7 @@ impl BlkidProbe {
 
     /// Create a new probe from a filename.
     pub fn new_from_filename(filename: &Path) -> Result<Self> {
-        let filename_cstring =
-            CString::new(filename.to_str().ok_or_else(|| BlkidErr::InvalidConv)?)?;
+        let filename_cstring = CString::new(filename.to_str().ok_or(BlkidErr::InvalidConv)?)?;
         Ok(BlkidProbe(errno_ptr!(unsafe {
             libblkid_rs_sys::blkid_new_probe_from_filename(filename_cstring.as_ptr())
         })?))
