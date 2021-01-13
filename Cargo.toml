@@ -8,6 +8,7 @@ license = "MPL-2.0"
 documentation = "https://docs.rs/libblkid-rs"
 homepage = "https://stratis-storage.github.io"
 repository = "https://github.com/stratis-storage/libblkid-rs"
+exclude = [".github/*", ".gitignore"]
 
 [dependencies.libblkid-rs-sys]
 version = "0.1.0"
