@@ -25,7 +25,7 @@ jobs:
             task: clippy
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
-            toolchain: 1.47.0
+            toolchain: 1.49.0
             task: test
           # MANDATORY TESTING ON STABLE
           - components: cargo
