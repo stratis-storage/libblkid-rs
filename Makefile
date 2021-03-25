@@ -17,7 +17,7 @@ build-deprecated:
 	RUSTFLAGS="${DENY}" cargo build --features=deprecated
 
 clippy:
-	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow
+	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms
 
 docs-rust:
 	cargo doc --no-deps --package libblkid-rs --package libblkid-rs-sys
