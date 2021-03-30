@@ -28,7 +28,7 @@ where
         .ok_or_else(|| BlkidErr::Other("No null found in C string".to_string()))?;
     buffer.truncate(first_null);
     let buffer_cstring = CString::new(buffer)?;
-    Ok(buffer_cstring.into_string().map_err(BlkidErr::IntoString)?)
+    buffer_cstring.into_string().map_err(BlkidErr::IntoString)
 }
 
 /// Encode potentially unsafe characters in the given `string` parameter.
