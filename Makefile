@@ -25,7 +25,7 @@ docs-rust:
 docs-travis: docs-rust
 
 yamllint:
-	yamllint --strict .github/workflows/main.yml
+	yamllint --strict .github/workflows/*.yml
 
 fmt:
 	cargo fmt
