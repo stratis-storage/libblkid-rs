@@ -18,10 +18,10 @@ jobs:
         include:
           # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: rustfmt
-            toolchain: 1.51.0
+            toolchain: 1.52.1
             task: fmt-travis
           - components: clippy
-            toolchain: 1.51.0
+            toolchain: 1.52.1
             task: clippy
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
