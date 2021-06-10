@@ -17,7 +17,7 @@ build-deprecated:
 	RUSTFLAGS="${DENY}" cargo build --features=deprecated
 
 check-fedora-versions:
-	`${COMPARE_FEDORA_VERSIONS} | jq '[.missing == [], .high == []] | all'`
+	`${COMPARE_FEDORA_VERSIONS} | jq '[.missing == ["libblkid-rs-sys"], .high == []] | all'`
 
 clippy:
 	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
