@@ -1,3 +1,8 @@
+ifeq ($(origin MANIFEST_PATH), undefined)
+else
+  MANIFEST_PATH_ARGS = --manifest-path=${MANIFEST_PATH}
+endif
+
 RUST_2018_IDIOMS = -D bare-trait-objects \
                    -D ellipsis-inclusive-range-patterns \
                    -D unused-extern-crates
@@ -17,7 +22,12 @@ build-deprecated:
 	RUSTFLAGS="${DENY}" cargo build --features=deprecated
 
 check-fedora-versions:
-	`${COMPARE_FEDORA_VERSIONS} | jq '[.missing == ["libblkid-rs-sys"], .high == []] | all'`
+	`${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
+	| jq '[.missing == ["libblkid-rs-sys"], .high == []] | all'`
+
+check-fedora-versions-sys:
+	`${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
+	| jq '[.missing == [], .high == []] | all'`
 
 clippy:
 	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
@@ -45,6 +55,7 @@ test:
 .PHONY:
 	build
 	check-fedora-versions
+	check-fedora-versions-sys
 	clippy
 	docs-rust
 	docs-travis
