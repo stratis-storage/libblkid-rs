@@ -19,6 +19,11 @@ build-deprecated:
 check-fedora-versions:
 	`${COMPARE_FEDORA_VERSIONS} | jq '[.missing == ["libblkid-rs-sys"], .high == []] | all'`
 
+check-fedora-versions-sys:
+	`${COMPARE_FEDORA_VERSIONS} \
+	--manifest-path=./libblkid-rs-sys/Cargo.toml \
+	| jq '[.missing == ["libblkid-rs-sys"], .high == []] | all'`
+
 clippy:
 	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
 
@@ -45,6 +50,7 @@ test:
 .PHONY:
 	build
 	check-fedora-versions
+	check-fedora-versions-sys
 	clippy
 	docs-rust
 	docs-travis
