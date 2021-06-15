@@ -22,7 +22,7 @@ check-fedora-versions:
 check-fedora-versions-sys:
 	`${COMPARE_FEDORA_VERSIONS} \
 	--manifest-path=./libblkid-rs-sys/Cargo.toml \
-	| jq '[.missing == ["libblkid-rs-sys"], .high == []] | all'`
+	| jq '[.missing == [], .high == []] | all'`
 
 clippy:
 	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
