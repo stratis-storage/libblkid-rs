@@ -21,6 +21,16 @@ build:
 build-deprecated:
 	RUSTFLAGS="${DENY}" cargo build --features=deprecated
 
+verify-dependency-bounds:
+	RUSTFLAGS="${DENY}" cargo build ${MANIFEST_PATH_ARGS} --all-features
+	${SET_LOWER_BOUNDS} ${MANIFEST_PATH_ARGS}
+	RUSTFLAGS="${DENY}" cargo build ${MANIFEST_PATH_ARGS} --all-features
+
+verify-dependency-bounds-sys:
+	RUSTFLAGS="${DENY}" cargo build ${MANIFEST_PATH_ARGS} --all-features
+	${SET_LOWER_BOUNDS} ${MANIFEST_PATH_ARGS}
+	RUSTFLAGS="${DENY}" cargo build ${MANIFEST_PATH_ARGS} --all-features
+
 check-fedora-versions:
 	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
 	--ignore-missing libblkid-rs-sys
@@ -63,4 +73,6 @@ test:
 	fmt-travis
 	release
 	test
+	verify-dependency-bounds
+	verify-dependency-bounds-sys
 	yamllint
