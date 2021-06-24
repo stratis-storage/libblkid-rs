@@ -22,12 +22,12 @@ build-deprecated:
 	RUSTFLAGS="${DENY}" cargo build --features=deprecated
 
 check-fedora-versions:
-	`${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
-	| jq '[.missing == ["libblkid-rs-sys"], .high == []] | all'`
+	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
+	--ignore-missing libblkid-rs-sys
 
 check-fedora-versions-sys:
-	`${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
-	| jq '[.missing == [], .high == []] | all'`
+	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
+	--ignore-low bindgen
 
 clippy:
 	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
