@@ -75,7 +75,6 @@ jobs:
           clang
           curl
           git
-          jq
           make
           openssl-devel
           python-requests
