@@ -3,6 +3,11 @@ else
   MANIFEST_PATH_ARGS = --manifest-path=${MANIFEST_PATH}
 endif
 
+ifeq ($(origin FEDORA_RELEASE), undefined)
+else
+  FEDORA_RELEASE_ARGS = --release=${FEDORA_RELEASE}
+endif
+
 RUST_2018_IDIOMS = -D bare-trait-objects \
                    -D ellipsis-inclusive-range-patterns \
                    -D unused-extern-crates
@@ -31,12 +36,16 @@ verify-dependency-bounds-sys:
 	${SET_LOWER_BOUNDS} ${MANIFEST_PATH_ARGS}
 	RUSTFLAGS="${DENY}" cargo build ${MANIFEST_PATH_ARGS} --all-features
 
-check-fedora-versions:
-	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
+test-compare-fedora-versions:
+	echo "Testing that COMPARE_FEDORA_VERSIONS environment variable is set to a valid path"
+	test -e "${COMPARE_FEDORA_VERSIONS}"
+
+check-fedora-versions: test-compare-fedora-versions
+	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} \
 	--ignore-missing libblkid-rs-sys
 
-check-fedora-versions-sys:
-	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} \
+check-fedora-versions-sys: test-compare-fedora-versions
+	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} \
 	--ignore-low bindgen
 
 clippy:
@@ -73,6 +82,7 @@ test:
 	fmt-travis
 	release
 	test
+	test-compare-fedora-versions
 	verify-dependency-bounds
 	verify-dependency-bounds-sys
 	yamllint
