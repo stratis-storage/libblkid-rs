@@ -40,11 +40,11 @@ test-compare-fedora-versions:
 	echo "Testing that COMPARE_FEDORA_VERSIONS environment variable is set to a valid path"
 	test -e "${COMPARE_FEDORA_VERSIONS}"
 
-check-fedora-versions:
+check-fedora-versions: test-compare-fedora-versions
 	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} \
 	--ignore-missing libblkid-rs-sys
 
-check-fedora-versions-sys:
+check-fedora-versions-sys: test-compare-fedora-versions
 	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} \
 	--ignore-low bindgen
 
