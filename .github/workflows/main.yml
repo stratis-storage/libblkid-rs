@@ -18,14 +18,14 @@ jobs:
         include:
           # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: rustfmt
-            toolchain: 1.53.0
+            toolchain: 1.53.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: fmt-travis
           - components: clippy
-            toolchain: 1.53.0
+            toolchain: 1.53.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: clippy
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
-            toolchain: 1.49.0
+            toolchain: 1.49.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: test
           # MANDATORY TESTING ON STABLE
           - components: cargo
