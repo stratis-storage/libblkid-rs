@@ -10,11 +10,7 @@ endif
 
 IGNORE_ARGS ?=
 
-RUST_2018_IDIOMS = -D bare-trait-objects \
-                   -D ellipsis-inclusive-range-patterns \
-                   -D unused-extern-crates
-
-DENY = -D warnings -D future-incompatible -D unused ${RUST_2018_IDIOMS}
+DENY = -D warnings -D future-incompatible -D unused -D rust_2018_idioms -D rust_2018_compatibility -D nonstandard_style
 
 ${HOME}/.cargo/bin/cargo-audit:
 	cargo install cargo-audit
@@ -56,7 +52,7 @@ check-fedora-versions-sys: test-compare-fedora-versions
 	--ignore-low bindgen
 
 clippy:
-	cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
+	RUSTFLAGS="${DENY}" cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
 
 docs-rust:
 	cargo doc --no-deps --package libblkid-rs --package libblkid-rs-sys
