@@ -7,6 +7,7 @@ fn main() {
 
     let bindings = Builder::default()
         .header("header.h")
+        .size_t_is_usize(true)
         .generate()
         .expect("Unable to generate bindings");
 
