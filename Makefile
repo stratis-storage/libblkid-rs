@@ -48,8 +48,7 @@ check-fedora-versions: test-compare-fedora-versions
 	--ignore-missing libblkid-rs-sys
 
 check-fedora-versions-sys: test-compare-fedora-versions
-	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} \
-	--ignore-low bindgen
+	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS}
 
 clippy:
 	RUSTFLAGS="${DENY}" cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
