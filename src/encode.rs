@@ -48,7 +48,7 @@ pub fn safe_string(string: &str) -> Result<String> {
     string_shared(string, |cstring, buffer| unsafe {
         libblkid_rs_sys::blkid_safe_string(
             cstring.as_ptr(),
-            buffer.as_mut_ptr() as *mut i8,
+            buffer.as_mut_ptr() as *mut c_char,
             buffer.len(),
         )
     })
