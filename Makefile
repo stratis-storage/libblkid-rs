@@ -51,7 +51,18 @@ check-fedora-versions-sys: test-compare-fedora-versions
 	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS}
 
 clippy:
-	RUSTFLAGS="${DENY}" cargo clippy --all-targets --all-features -- -D warnings -D clippy::needless_borrow -A clippy::upper_case_acronyms -A clippy::from_over_into
+	RUSTFLAGS="${DENY}" \
+        cargo clippy --all-targets --all-features -- \
+        -D warnings \
+        -D clippy::cargo \
+        -D clippy::all \
+        -A clippy::from_over_into
+	(cd libblkid-rs-sys && RUSTFLAGS="${DENY}" \
+        cargo clippy --all-targets --all-features -- \
+        -D warnings \
+        -D clippy::cargo \
+        -D clippy::all)
+
 
 docs-rust:
 	cargo doc --no-deps --package libblkid-rs --package libblkid-rs-sys
