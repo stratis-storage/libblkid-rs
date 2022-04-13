@@ -6,6 +6,7 @@ use std::{
     ffi::{CStr, CString},
     fs::File,
     os::unix::io::AsRawFd,
+    path::PathBuf,
     ptr,
 };
 
@@ -29,10 +30,10 @@ impl BlkidDev {
     }
 
     /// Get the device name for a blkid device
-    pub fn devname(&self) -> Result<&str> {
+    pub fn devname(&self) -> Result<PathBuf> {
         let ret = errno_ptr!(unsafe { libblkid_rs_sys::blkid_dev_devname(self.0) })?;
         let cstr_ret = unsafe { CStr::from_ptr(ret) };
-        Ok(cstr_ret.to_str()?)
+        Ok(PathBuf::from(cstr_ret.to_str()?))
     }
 
     /// Get the size of a device as reported by the cache
