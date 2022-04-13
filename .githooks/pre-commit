@@ -1,0 +1,8 @@
+#!/bin/bash
+
+make fmt-ci && \
+	make build && \
+	make build-deprecated && \
+	make test && \
+	make clippy \
+	|| exit 1
