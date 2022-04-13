@@ -5,11 +5,13 @@
 use std::{
     ffi::{CStr, CString},
     path::Path,
+    ptr,
 };
 
 use either::Either;
 
 use libblkid_rs_sys::blkid_cache;
+use libc::{c_void, free};
 
 use crate::{
     consts::BlkidDevFlags,
@@ -18,7 +20,7 @@ use crate::{
 };
 
 /// Data structure representing cache in libblkid
-pub struct BlkidCache(blkid_cache);
+pub struct BlkidCache(blkid_cache, bool);
 
 impl BlkidCache {
     pub(crate) fn as_mut_ptr(&mut self) -> *mut blkid_cache {
@@ -27,15 +29,28 @@ impl BlkidCache {
 
     /// Save changes to cache file
     pub fn put_cache(&mut self) {
-        unsafe { libblkid_rs_sys::blkid_put_cache(self.0) }
+        unsafe { libblkid_rs_sys::blkid_put_cache(self.0) };
+        self.1 = true;
     }
 
     /// Allocate and initalize cache handler
-    pub fn get_cache(&mut self, filename: &Path) -> Result<()> {
-        let filename_cstring = CString::new(filename.to_str().ok_or(BlkidErr::InvalidConv)?)?;
+    ///
+    /// Use None for filename to use the default cache path
+    pub fn get_cache(filename: Option<&Path>) -> Result<Self> {
+        let mut cache = ptr::null_mut();
+        let filename_cstring = match filename {
+            Some(fname) => Some(CString::new(fname.to_str().ok_or(BlkidErr::InvalidConv)?)?),
+            None => None,
+        };
         errno!(unsafe {
-            libblkid_rs_sys::blkid_get_cache(&mut self.0 as *mut _, filename_cstring.as_ptr())
-        })
+            libblkid_rs_sys::blkid_get_cache(
+                &mut cache as *mut _,
+                filename_cstring
+                    .map(|s| s.as_ptr())
+                    .unwrap_or(ptr::null_mut()),
+            )
+        })?;
+        Ok(BlkidCache(cache, false))
     }
 
     /// Removes non-existant devices from cache
@@ -66,17 +81,19 @@ impl BlkidCache {
     /// Find a device by device name in the cache.
     ///
     /// Use the `BlkidDevConst::Create` flag to create an empty cache entry.
-    pub fn get_dev(&self, devname: &str, flags: BlkidDevFlags) -> Result<BlkidDev> {
-        let devname_cstring = CString::new(devname.as_bytes())?;
+    pub fn get_dev(&self, devname: &Path, flags: BlkidDevFlags) -> Result<BlkidDev> {
+        let devname_cstring =
+            CString::new(devname.to_str().ok_or(BlkidErr::InvalidConv)?.as_bytes())?;
         Ok(BlkidDev::new(unsafe {
             libblkid_rs_sys::blkid_get_dev(self.0, devname_cstring.as_ptr(), flags.into())
         }))
     }
 
     /// Get the value associated with a tag (e.g. TYPE) for a given device
-    pub fn get_tag_value(&self, tag_name: &str, devname: &str) -> Result<&str> {
+    pub fn get_tag_value(&self, tag_name: &str, devname: &Path) -> Result<&str> {
         let tag_name_cstring = CString::new(tag_name.as_bytes())?;
-        let devname_cstring = CString::new(devname.as_bytes())?;
+        let devname_cstring =
+            CString::new(devname.to_str().ok_or(BlkidErr::InvalidConv)?.as_bytes())?;
         let ptr = errno_ptr!(unsafe {
             libblkid_rs_sys::blkid_get_tag_value(
                 self.0,
@@ -132,5 +149,13 @@ impl BlkidCache {
             )
         })?;
         Ok(BlkidDev::new(ptr))
+    }
+}
+
+impl Drop for BlkidCache {
+    fn drop(&mut self) {
+        if !self.1 {
+            unsafe { free(self.0 as *mut c_void) }
+        }
     }
 }
