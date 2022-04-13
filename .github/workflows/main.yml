@@ -19,7 +19,7 @@ jobs:
           # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: rustfmt
             toolchain: 1.59.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-            task: fmt-travis
+            task: fmt-ci
           - components: clippy
             toolchain: 1.59.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: clippy
@@ -31,7 +31,7 @@ jobs:
             task: test
           - components: cargo
             toolchain: 1.59.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-            task: docs-travis
+            task: docs-ci
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
             toolchain: 1.54.0  # LOWEST SUPPORTED RUST TOOLCHAIN

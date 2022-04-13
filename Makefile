@@ -67,7 +67,7 @@ clippy:
 docs-rust:
 	cargo doc --no-deps --package libblkid-rs --package libblkid-rs-sys
 
-docs-travis: docs-rust
+docs-ci: docs-rust
 
 yamllint:
 	yamllint --strict .github/workflows/*.yml
@@ -75,7 +75,7 @@ yamllint:
 fmt:
 	cargo fmt
 
-fmt-travis:
+fmt-ci:
 	cargo fmt -- --check
 
 release:
@@ -90,9 +90,9 @@ test:
 	check-fedora-versions-sys
 	clippy
 	docs-rust
-	docs-travis
+	docs-ci
 	fmt
-	fmt-travis
+	fmt-ci
 	release
 	test
 	test-compare-fedora-versions
