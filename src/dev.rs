@@ -29,6 +29,10 @@ impl BlkidDev {
         BlkidDev(inner)
     }
 
+    pub(crate) fn as_ptr(&self) -> libblkid_rs_sys::blkid_dev {
+        self.0
+    }
+
     /// Get the device name for a blkid device
     pub fn devname(&self) -> Result<PathBuf> {
         let ret = errno_ptr!(unsafe { libblkid_rs_sys::blkid_dev_devname(self.0) })?;

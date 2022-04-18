@@ -20,11 +20,6 @@
 //!   characters are required.
 //! * `blkid_get_dev_size` - This method takes a `&Path` in the bindings
 //!   and provides libblkid with the desired file descriptor.
-//!
-//! ### List of methods not included
-//! * `blkid_verify` - This method is not included because the struct flag
-//!   that will notify the caller of whether it succeeded or not cannot be accessed
-//!   from the public API.
 
 #![deny(missing_docs)]
 

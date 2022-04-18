@@ -150,6 +150,16 @@ impl BlkidCache {
         })?;
         Ok(BlkidDev::new(ptr))
     }
+
+    /// Verify that a device in the cache exists and remove it if it does not.
+    pub fn verify(&mut self, dev: BlkidDev) -> Option<BlkidDev> {
+        let ptr = unsafe { libblkid_rs_sys::blkid_verify(self.0, dev.as_ptr()) };
+        if ptr.is_null() {
+            None
+        } else {
+            Some(BlkidDev::new(ptr))
+        }
+    }
 }
 
 impl Drop for BlkidCache {
