@@ -1,4 +1,4 @@
-libblkid-rs 0.1.2
+libblkid-rs 0.2.0
 ==============================
 Recommended Rust toolchain version: 1.60.0
 Lowest supported Rust toolchain version: 1.54.0
