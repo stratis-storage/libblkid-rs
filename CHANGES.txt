@@ -1,8 +1,11 @@
-libblkid-rs 0.1.2 (UNRELEASED)
+libblkid-rs 0.2.0
 ==============================
-Recommended Rust toolchain version: 1.59.0
+Recommended Rust toolchain version: 1.60.0
 Lowest supported Rust toolchain version: 1.54.0
 Recommended development release: Fedora 35
+
+- Expose verify method for cache:
+  https://github.com/stratis-storage/libblkid-rs/pull/74
 
 - Bug fixes: double free, restrictive API:
   https://github.com/stratis-storage/libblkid-rs/pull/72
