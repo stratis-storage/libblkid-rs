@@ -1,6 +1,6 @@
 [package]
 name = "libblkid-rs"
-version = "0.1.2"
+version = "0.1.1"
 authors = ["John Baublitz <jbaublitz@redhat.com>"]
 edition = "2018"
 description = "High level bindings for libblkid"
