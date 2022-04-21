@@ -44,11 +44,7 @@ test-compare-fedora-versions:
 	test -e "${COMPARE_FEDORA_VERSIONS}"
 
 check-fedora-versions: test-compare-fedora-versions
-	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} ${IGNORE_ARGS} \
-	--ignore-missing libblkid-rs-sys
-
-check-fedora-versions-sys: test-compare-fedora-versions
-	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS}
+	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} ${IGNORE_ARGS}
 
 clippy:
 	RUSTFLAGS="${DENY}" \
@@ -87,7 +83,6 @@ test:
 .PHONY:
 	build
 	check-fedora-versions
-	check-fedora-versions-sys
 	clippy
 	docs-rust
 	docs-ci
