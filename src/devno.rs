@@ -20,6 +20,7 @@ impl BlkidDevno {
 
     /// Create a `BlkidDevno` from major and minor numbers.
     pub fn from_device_numbers(major: libc::c_uint, minor: libc::c_uint) -> Self {
+        #[allow(unused_unsafe)] // No longer unsafe in libc 0.2.133
         BlkidDevno(unsafe { libc::makedev(major, minor) })
     }
 
