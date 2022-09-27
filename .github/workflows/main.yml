@@ -24,19 +24,19 @@ jobs:
         include:
           # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: rustfmt
-            toolchain: 1.63.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.64.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: fmt-ci
           - components: clippy
-            toolchain: 1.63.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.64.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: clippy
           - components: cargo
-            toolchain: 1.63.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.64.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.63.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.64.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: test
           - components: cargo
-            toolchain: 1.63.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.64.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: docs-ci
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
@@ -88,7 +88,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           components: cargo
-          toolchain: 1.63.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+          toolchain: 1.64.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
           override: true
       - name: Check out ci repo
         run: git clone https://github.com/stratis-storage/ci.git
