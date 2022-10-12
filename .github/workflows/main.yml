@@ -44,7 +44,7 @@ jobs:
             task: test
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
         with:
           components: ${{ matrix.components }}
@@ -73,7 +73,7 @@ jobs:
     container:
       image: fedora:36  # CURRENT DEVELOPMENT ENVIRONMENT
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install dependencies for Fedora
         run: >
           dnf install -y
@@ -102,7 +102,7 @@ jobs:
     container:
       image: fedora:36  # CURRENT DEVELOPMENT ENVIRONMENT
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install dependencies for Fedora
         run: dnf install -y make yamllint
       - name: Run yamllint
