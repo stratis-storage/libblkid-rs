@@ -103,9 +103,7 @@ impl BlkidProbe {
 
     /// Enable superblock probing.
     pub fn enable_superblocks(&mut self, enable: bool) -> Result<()> {
-        errno!(unsafe {
-            libblkid_rs_sys::blkid_probe_enable_superblocks(self.0, if enable { 1 } else { 0 })
-        })
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_enable_superblocks(self.0, enable.into()) })
     }
 
     /// Set the superblock probing flags.
@@ -162,9 +160,7 @@ impl BlkidProbe {
 
     /// Enable topology probing.
     pub fn enable_topology(&mut self, enable: bool) -> Result<()> {
-        errno!(unsafe {
-            libblkid_rs_sys::blkid_probe_enable_topology(self.0, if enable { 1 } else { 0 })
-        })
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_enable_topology(self.0, enable.into()) })
     }
 
     /// Get the blkid topology of devices.
@@ -180,9 +176,7 @@ impl BlkidProbe {
 
     /// Enable partition probing.
     pub fn enable_partitions(&mut self, enable: bool) -> Result<()> {
-        errno!(unsafe {
-            libblkid_rs_sys::blkid_probe_enable_partitions(self.0, if enable { 1 } else { 0 })
-        })
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_enable_partitions(self.0, enable.into()) })
     }
 
     /// Reset the partition filter.
@@ -315,7 +309,7 @@ impl BlkidProbe {
 
     /// Wipe the current probed block signature.
     pub fn do_wipe(&mut self, dry_run: bool) -> Result<()> {
-        errno!(unsafe { libblkid_rs_sys::blkid_do_wipe(self.0, if dry_run { 1 } else { 0 }) })
+        errno!(unsafe { libblkid_rs_sys::blkid_do_wipe(self.0, dry_run.into()) })
     }
 
     /// Set the probing on step back on the probing chain.
