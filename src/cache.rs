@@ -90,7 +90,7 @@ impl BlkidCache {
     }
 
     /// Get the value associated with a tag (e.g. TYPE) for a given device
-    pub fn get_tag_value(&self, tag_name: &str, devname: &Path) -> Result<&str> {
+    pub fn get_tag_value(&self, tag_name: &str, devname: &Path) -> Result<String> {
         let tag_name_cstring = CString::new(tag_name.as_bytes())?;
         let devname_cstring =
             CString::new(devname.to_str().ok_or(BlkidErr::InvalidConv)?.as_bytes())?;
@@ -101,11 +101,13 @@ impl BlkidCache {
                 devname_cstring.as_ptr(),
             )
         })?;
-        Ok(unsafe { CStr::from_ptr(ptr) }.to_str()?)
+        let string = unsafe { CStr::from_ptr(ptr) }.to_str()?.to_string();
+        unsafe { libc::free(ptr as *mut libc::c_void) };
+        Ok(string)
     }
 
     /// Get the device name for a specific `NAME=value` tag pair in the cache
-    pub fn get_devname(&self, token_or_pair: Either<&str, (&str, &str)>) -> Result<&str> {
+    pub fn get_devname(&self, token_or_pair: Either<&str, (&str, &str)>) -> Result<String> {
         let (name, value) = match token_or_pair {
             Either::Left(token) => {
                 if !token.contains('=') {
@@ -134,7 +136,9 @@ impl BlkidCache {
                 value_cstring.as_ptr(),
             )
         })?;
-        Ok(unsafe { CStr::from_ptr(ptr) }.to_str()?)
+        let string = unsafe { CStr::from_ptr(ptr) }.to_str()?.to_string();
+        unsafe { libc::free(ptr as *mut libc::c_void) };
+        Ok(string)
     }
 
     /// Find the device with the specified tag
