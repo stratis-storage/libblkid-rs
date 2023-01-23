@@ -1,5 +1,53 @@
+libblkid-rs 0.3.0
+=================
+Recommended Rust toolchain version: 1.66.1
+Lowest supported Rust toolchain version: 1.62.1
+Recommended development release: Fedora 37
+
+- Fix some memory leaks:
+  https://github.com/stratis-storage/libblkid-rs/pull/109
+
+- Increase uuid dependency version to 1.0.0:
+  https://github.com/stratis-storage/libblkid-rs/pull/82
+
+- Increase bindgen dependency version to 0.63.0:
+  https://github.com/stratis-storage/libblkid-rs/pull/105
+
+- libblkid-rs-sys new version 0.1.4:
+  https://github.com/stratis-storage/libblkid-rs/pull/94
+
+- Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/110
+  https://github.com/stratis-storage/libblkid-rs/pull/107
+  https://github.com/stratis-storage/libblkid-rs/pull/106
+  https://github.com/stratis-storage/libblkid-rs/pull/104
+  https://github.com/stratis-storage/libblkid-rs/pull/103
+  https://github.com/stratis-storage/libblkid-rs/pull/102
+  https://github.com/stratis-storage/libblkid-rs/pull/101
+  https://github.com/stratis-storage/libblkid-rs/pull/100
+  https://github.com/stratis-storage/libblkid-rs/pull/99
+  https://github.com/stratis-storage/libblkid-rs/pull/98
+  https://github.com/stratis-storage/libblkid-rs/pull/97
+  https://github.com/stratis-storage/libblkid-rs/pull/96
+  https://github.com/stratis-storage/libblkid-rs/pull/95
+  https://github.com/stratis-storage/libblkid-rs/pull/93
+  https://github.com/stratis-storage/libblkid-rs/pull/92
+  https://github.com/stratis-storage/libblkid-rs/pull/90
+  https://github.com/stratis-storage/libblkid-rs/pull/89
+  https://github.com/stratis-storage/libblkid-rs/pull/88
+  https://github.com/stratis-storage/libblkid-rs/pull/87
+  https://github.com/stratis-storage/libblkid-rs/pull/86
+  https://github.com/stratis-storage/libblkid-rs/pull/85
+  https://github.com/stratis-storage/libblkid-rs/pull/84
+  https://github.com/stratis-storage/libblkid-rs/pull/83
+  https://github.com/stratis-storage/libblkid-rs/pull/81
+  https://github.com/stratis-storage/libblkid-rs/pull/80
+  https://github.com/stratis-storage/libblkid-rs/pull/79
+  https://github.com/stratis-storage/libblkid-rs/pull/77
+
+
 libblkid-rs 0.2.0
-==============================
+=================
 Recommended Rust toolchain version: 1.60.0
 Lowest supported Rust toolchain version: 1.54.0
 Recommended development release: Fedora 35
