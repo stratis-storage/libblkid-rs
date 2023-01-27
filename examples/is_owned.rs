@@ -47,10 +47,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     if partitions.as_ref().map(|num| *num > 0).unwrap_or(false) || detected_use.is_ok() {
         println!("In use");
         if let Ok(num) = partitions {
-            println!("{} partitions found on block device", num);
+            println!("{num} partitions found on block device");
         }
         if let Ok(ty) = detected_use {
-            println!("Device determined to be of type {}", ty);
+            println!("Device determined to be of type {ty}");
         }
     } else {
         println!("Free");
