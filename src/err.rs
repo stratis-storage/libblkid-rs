@@ -60,18 +60,18 @@ pub enum BlkidErr {
 impl Display for BlkidErr {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
-            BlkidErr::Null(ref e) => write!(f, "Null error during string conversion: {}", e),
-            BlkidErr::BytesWithNull(ref e) => write!(f, "Null error when converting from slice: {}", e),
-            BlkidErr::IntoString(ref e) => write!(f, "Could not convert C string to string: {}", e),
+            BlkidErr::Null(ref e) => write!(f, "Null error during string conversion: {e}"),
+            BlkidErr::BytesWithNull(ref e) => write!(f, "Null error when converting from slice: {e}"),
+            BlkidErr::IntoString(ref e) => write!(f, "Could not convert C string to string: {e}"),
             BlkidErr::PositiveReturnCode => {
                 write!(f, "Positive return code found when <= 0 was expected")
             }
             BlkidErr::InvalidConv => write!(f, "The requested conversion was unsuccessful"),
-            BlkidErr::UTF8(ref e) => write!(f, "UTF8 error: {}", e),
-            BlkidErr::FromUTF8(ref e) => write!(f, "UTF8 conversion error: {}", e),
-            BlkidErr::IO(ref e) => write!(f, "An IO error occurred: {}", e),
-            BlkidErr::Uuid(ref e) => write!(f, "A UUID error occurred: {}", e),
-            BlkidErr::Other(ref s) => write!(f, "{}", s),
+            BlkidErr::UTF8(ref e) => write!(f, "UTF8 error: {e}"),
+            BlkidErr::FromUTF8(ref e) => write!(f, "UTF8 conversion error: {e}"),
+            BlkidErr::IO(ref e) => write!(f, "An IO error occurred: {e}"),
+            BlkidErr::Uuid(ref e) => write!(f, "A UUID error occurred: {e}"),
+            BlkidErr::Other(ref s) => write!(f, "{s}"),
             BlkidErr::LibErr => write!(f, "libblkid returned an error code indicating an operation could not be completed successfully"),
         }
     }
