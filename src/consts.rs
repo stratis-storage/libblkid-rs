@@ -139,3 +139,20 @@ flags!(
     BlkidProbreqFlags <=> c_int,
     BlkidProbreqFlag
 );
+
+consts_enum_conv!(
+    /// Probe partitions flags
+    BlkidProbPartsFlag <=> c_int,
+    #[allow(missing_docs)]
+    ForceGpt => libblkid_rs_sys::BLKID_PARTS_FORCE_GPT as i32,
+    #[allow(missing_docs)]
+    EntryDetails=> libblkid_rs_sys::BLKID_PARTS_ENTRY_DETAILS as i32,
+    #[allow(missing_docs)]
+    Magic => libblkid_rs_sys::BLKID_PARTS_MAGIC as i32
+);
+
+flags!(
+    /// Set of flags of type `BlkidProbPartsFlag`
+    BlkidProbPartsFlags <=> c_int,
+    BlkidProbPartsFlag
+);

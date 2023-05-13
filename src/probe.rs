@@ -18,7 +18,7 @@ use crate::{
     err::BlkidErr,
     partition::BlkidPartlist,
     topology::BlkidTopology,
-    Result,
+    BlkidProbPartsFlags, Result,
 };
 
 /// A structure for probing block devices.
@@ -320,6 +320,19 @@ impl BlkidProbe {
     /// Set request flags.
     pub fn set_request(&mut self, flags: BlkidProbreqFlags) -> Result<()> {
         errno!(unsafe { libblkid_rs_sys::blkid_probe_set_request(self.0, flags.into()) })
+    }
+
+    /// Set hint
+    pub fn set_hint(&mut self, name: &str, value: u64) -> Result<()> {
+        let name_cstring = CString::new(name)?;
+        errno!(unsafe {
+            libblkid_rs_sys::blkid_probe_set_hint(self.0, name_cstring.as_ptr(), value)
+        })
+    }
+
+    ///set partitions flags
+    pub fn set_partitions_flags(&mut self, flags: BlkidProbPartsFlags) -> Result<()> {
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_set_partitions_flags(self.0, flags.into()) })
     }
 }
 
