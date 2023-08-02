@@ -40,7 +40,7 @@ jobs:
             task: docs-ci
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
-            toolchain: 1.69.0  # LOWEST SUPPORTED RUST TOOLCHAIN
+            toolchain: 1.71.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: test
     runs-on: ubuntu-20.04
     steps:
