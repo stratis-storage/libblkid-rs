@@ -24,19 +24,19 @@ jobs:
         include:
           # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: rustfmt
-            toolchain: 1.71.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.71.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: fmt-ci
           - components: clippy
-            toolchain: 1.71.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.71.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: clippy
           - components: cargo
-            toolchain: 1.71.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.71.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.71.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.71.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: test
           - components: cargo
-            toolchain: 1.71.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.71.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: docs-ci
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
@@ -87,7 +87,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: cargo
-          toolchain: 1.71.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+          toolchain: 1.71.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
       - name: Check out ci repo
         run: git clone https://github.com/stratis-storage/ci.git
       - name: Run ${{ matrix.task }}
