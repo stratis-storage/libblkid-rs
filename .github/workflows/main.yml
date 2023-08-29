@@ -56,44 +56,6 @@ jobs:
       - name: Test ${{ matrix.task }} on ${{ matrix.toolchain }} toolchain
         run: make -f Makefile ${{ matrix.task }}
 
-  checks-with-ci-repo:
-    strategy:
-      matrix:
-        include:
-          - task: >
-              SET_LOWER_BOUNDS=./set_lower_bounds
-              MANIFEST_PATH=../../Cargo.toml
-              make -f ../../Makefile verify-dependency-bounds
-          - task: >
-              SET_LOWER_BOUNDS=./set_lower_bounds
-              MANIFEST_PATH=../../libblkid-rs-sys/Cargo.toml
-              make -f ../../Makefile verify-dependency-bounds-sys
-    runs-on: ubuntu-20.04
-    container:
-      image: fedora:38  # CURRENT DEVELOPMENT ENVIRONMENT
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies for Fedora
-        run: >
-          dnf install -y
-          clang
-          curl
-          git
-          libblkid-devel
-          make
-          openssl-devel
-          python-requests
-          python-semantic_version
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          components: cargo
-          toolchain: 1.72.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-      - name: Check out ci repo
-        run: git clone https://github.com/stratis-storage/ci.git
-      - name: Run ${{ matrix.task }}
-        run: ${{ matrix.task }}
-        working-directory: ./ci/dependency_management
-
   # VERIFICATION OF TEST INFRASTRUCTURE
   yamllint:
     runs-on: ubuntu-20.04
