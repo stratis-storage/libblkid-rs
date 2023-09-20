@@ -24,6 +24,9 @@ build:
 build-deprecated:
 	RUSTFLAGS="${DENY}" cargo build --features=deprecated
 
+check-typos:
+	typos
+
 SET_LOWER_BOUNDS ?=
 test-set-lower-bounds:
 	echo "Testing that SET_LOWER_BOUNDS environment variable is set to a valid path"
@@ -83,6 +86,7 @@ test:
 .PHONY:
 	build
 	check-fedora-versions
+	check-typos
 	clippy
 	docs-rust
 	docs-ci
