@@ -33,7 +33,7 @@ impl BlkidCache {
         self.1 = true;
     }
 
-    /// Allocate and initalize cache handler
+    /// Allocate and initialize cache handler
     ///
     /// Use None for filename to use the default cache path
     pub fn get_cache(filename: Option<&Path>) -> Result<Self> {
@@ -53,7 +53,7 @@ impl BlkidCache {
         Ok(BlkidCache(cache, false))
     }
 
-    /// Removes non-existant devices from cache
+    /// Removes non-existent devices from cache
     pub fn gc_cache(&mut self) {
         unsafe { libblkid_rs_sys::blkid_gc_cache(self.0) }
     }

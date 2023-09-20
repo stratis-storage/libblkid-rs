@@ -340,7 +340,7 @@ pub fn is_known_fs_type(fstype: &str) -> Result<bool> {
 /// internal state.
 ///
 /// This method in libblkid exposes implementation details of the library. There
-/// is no way to map indicies to types without duplicating logic inside and outside
+/// is no way to map indices to types without duplicating logic inside and outside
 /// of the library.
 pub fn get_superblock_name(
     index: usize,
@@ -382,7 +382,7 @@ pub fn is_known_partition_type(type_: &str) -> bool {
 /// internal state.
 ///
 /// This method in libblkid exposes implementation details of the library. There
-/// is no way to map indicies to types without duplicating logic inside and outside
+/// is no way to map indices to types without duplicating logic inside and outside
 /// of the library.
 pub fn get_partition_name(index: usize) -> Result<&'static str> {
     let mut name_ptr: *const libc::c_char = ptr::null();

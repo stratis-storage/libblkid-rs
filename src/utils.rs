@@ -42,7 +42,7 @@ impl BlkidBytes {
         BlkidBytes(num)
     }
 
-    /// Return the number of sectors repesented by this number of bytes or
+    /// Return the number of sectors represented by this number of bytes or
     /// an error if the number of bytes is not divisible by the sector size.
     pub fn sectors(&self) -> Result<BlkidSectors> {
         if self.0 % SECTOR_SIZE != 0 {
