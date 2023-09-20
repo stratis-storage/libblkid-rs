@@ -38,6 +38,9 @@ jobs:
           - components: cargo
             toolchain: 1.72.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: docs-ci
+          - components: cargo
+            toolchain: 1.72.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            task: check-typos
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
             toolchain: 1.71.1  # LOWEST SUPPORTED RUST TOOLCHAIN
@@ -49,6 +52,9 @@ jobs:
         with:
           components: ${{ matrix.components }}
           toolchain: ${{ matrix.toolchain }}
+      - uses: baptiste0928/cargo-install@v2
+        with:
+          crate: typos-cli
       - name: Install dependencies
         run: |
           sudo apt-get -q update

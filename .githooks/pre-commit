@@ -5,4 +5,5 @@ make fmt-ci && \
 	make build-deprecated && \
 	make test && \
 	make clippy \
+	make check-typos \
 	|| exit 1
