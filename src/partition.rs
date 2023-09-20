@@ -105,7 +105,7 @@ impl BlkidPartition {
         BlkidSectors::new(unsafe { libblkid_rs_sys::blkid_partition_get_size(self.0) })
     }
 
-    /// Get the numberic partition type. Use `get_type_string` for the `String`
+    /// Get the numeric partition type. Use `get_type_string` for the `String`
     /// representation.
     pub fn get_type(&self) -> libc::c_int {
         unsafe { libblkid_rs_sys::blkid_partition_get_type(self.0) }
