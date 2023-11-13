@@ -1,3 +1,8 @@
+ifeq ($(origin PROFILE), undefined)
+else
+  PROFILE_FLAGS = -C instrument-coverage
+endif
+
 ifeq ($(origin MANIFEST_PATH), undefined)
 else
   MANIFEST_PATH_ARGS = --manifest-path=${MANIFEST_PATH}
@@ -23,10 +28,10 @@ audit: ${HOME}/.cargo/bin/cargo-audit
 	PATH=${HOME}/.cargo/bin:${PATH} cargo audit -D warnings
 
 build:
-	cargo build
+	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo build
 
 build-deprecated:
-	cargo build --features=deprecated
+	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo build --features=deprecated
 
 check-typos:
 	typos
@@ -73,10 +78,10 @@ fmt-ci:
 	cargo fmt -- --check
 
 release:
-	cargo build --release
+	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo build --release
 
 test:
-	RUST_BACKTRACE=1 cargo test
+	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" RUST_BACKTRACE=1 cargo test
 
 .PHONY:
 	build
