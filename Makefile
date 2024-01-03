@@ -8,6 +8,12 @@ else
   FEDORA_RELEASE_ARGS = --release=${FEDORA_RELEASE}
 endif
 
+ifeq ($(origin CLIPPY_FIX), undefined)
+  CLIPPY_OPTS = --all-targets --no-deps
+else
+  CLIPPY_OPTS = --fix
+endif
+
 IGNORE_ARGS ?=
 
 DENY = -D warnings -D future-incompatible -D unused -D rust_2018_idioms -D nonstandard_style
@@ -51,13 +57,13 @@ check-fedora-versions: test-compare-fedora-versions
 
 clippy:
 	RUSTFLAGS="${DENY}" \
-        cargo clippy --all-targets --all-features -- \
+        cargo clippy --all-features ${CLIPPY_OPTS} -- \
         -D warnings \
         -D clippy::cargo \
         -D clippy::all \
         -A clippy::from_over_into
 	(cd libblkid-rs-sys && RUSTFLAGS="${DENY}" \
-        cargo clippy --all-targets --all-features -- \
+        cargo clippy --all-features ${CLIPPY_OPTS} -- \
         -D warnings \
         -D clippy::cargo \
         -D clippy::all)
