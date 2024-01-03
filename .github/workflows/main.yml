@@ -39,7 +39,7 @@ jobs:
             toolchain: 1.74.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: docs-ci
           - components: cargo
-            toolchain: 1.74.1  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.75.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: check-typos
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
