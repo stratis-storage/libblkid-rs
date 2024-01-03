@@ -52,13 +52,13 @@ jobs:
         with:
           components: ${{ matrix.components }}
           toolchain: ${{ matrix.toolchain }}
-      - uses: baptiste0928/cargo-install@v2
-        with:
-          crate: typos-cli
       - name: Install dependencies
         run: |
           sudo apt-get -q update
           sudo apt-get -y install libblkid-dev
+      - name: Install typos-cli if required
+        # yamllint disable rule:line-length
+        run: ${{ matrix.task == 'check-typos' && 'cargo install typos-cli' || 'true' }}
       - name: Test ${{ matrix.task }} on ${{ matrix.toolchain }} toolchain
         run: make -f Makefile ${{ matrix.task }}
 
