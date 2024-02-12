@@ -24,22 +24,22 @@ jobs:
         include:
           # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: rustfmt
-            toolchain: 1.75.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.76.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: fmt-ci
           - components: clippy
-            toolchain: 1.75.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.76.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: clippy
           - components: cargo
-            toolchain: 1.75.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.76.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.75.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.76.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: test
           - components: cargo
-            toolchain: 1.75.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.76.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: docs-ci
           - components: cargo
-            toolchain: 1.75.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.76.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: check-typos
           # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
