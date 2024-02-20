@@ -1,9 +1,10 @@
 libblkid-rs 0.3.2 (UNRELEASED)
 ==============================
-Recommended Rust toolchain version: 1.75.0
+Recommended Rust toolchain version: 1.76.0
 Recommended development release: Fedora 39
 
 - Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/153
   https://github.com/stratis-storage/libblkid-rs/pull/152
   https://github.com/stratis-storage/libblkid-rs/pull/150
   https://github.com/stratis-storage/libblkid-rs/pull/149
