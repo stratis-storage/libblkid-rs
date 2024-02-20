@@ -3,6 +3,9 @@ libblkid-rs 0.3.2 (UNRELEASED)
 Recommended Rust toolchain version: 1.76.0
 Recommended development release: Fedora 39
 
+- libblkid-rs-sys: Increase bindgen dependency lower bound to 0.69.0:
+  https://github.com/stratis-storage/libblkid-rs/pull/154
+
 - Tidies and Maintenance:
   https://github.com/stratis-storage/libblkid-rs/pull/153
   https://github.com/stratis-storage/libblkid-rs/pull/152
