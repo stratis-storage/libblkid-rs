@@ -14,7 +14,7 @@ keywords = ["storage"]
 exclude = [".clippy.toml", ".githooks/*", ".github/*", ".gitignore", "Makefile"]
 
 [dependencies.libblkid-rs-sys]
-version = "0.2.0"
+version = "0.3.0"
 path = "./libblkid-rs-sys"
 
 [dependencies]
