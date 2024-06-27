@@ -1,3 +1,48 @@
+libblkid-rs 0.4.0
+=================
+Recommended Rust toolchain version: 1.84.1
+Recommended development release: Fedora 40
+
+- Add error code to libblkid error variant:
+  https://github.com/stratis-storage/libblkid-rs/pull/176
+
+- Fix ownership bug in get_cache:
+  https://github.com/stratis-storage/libblkid-rs/pull/182
+
+- Use pkg-config to find header search paths for bindgen:
+  https://github.com/stratis-storage/libblkid-rs/pull/171
+
+- Release libblkid-rs-sys 0.3.1:
+  https://github.com/stratis-storage/libblkid-rs/pull/177
+
+- Increase libblkid-rs-sys dependency lower bound to 0.3.1
+  https://github.com/stratis-storage/libblkid-rs/pull/180
+
+- Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/186
+  https://github.com/stratis-storage/libblkid-rs/pull/184
+  https://github.com/stratis-storage/libblkid-rs/pull/183
+  https://github.com/stratis-storage/libblkid-rs/pull/181
+  https://github.com/stratis-storage/libblkid-rs/pull/178
+  https://github.com/stratis-storage/libblkid-rs/pull/174
+  https://github.com/stratis-storage/libblkid-rs/pull/173
+  https://github.com/stratis-storage/libblkid-rs/pull/172
+  https://github.com/stratis-storage/libblkid-rs/pull/170
+  https://github.com/stratis-storage/libblkid-rs/pull/169
+  https://github.com/stratis-storage/libblkid-rs/pull/168
+  https://github.com/stratis-storage/libblkid-rs/pull/167
+  https://github.com/stratis-storage/libblkid-rs/pull/166
+  https://github.com/stratis-storage/libblkid-rs/pull/165
+  https://github.com/stratis-storage/libblkid-rs/pull/164
+  https://github.com/stratis-storage/libblkid-rs/pull/163
+  https://github.com/stratis-storage/libblkid-rs/pull/162
+  https://github.com/stratis-storage/libblkid-rs/pull/161
+  https://github.com/stratis-storage/libblkid-rs/pull/160
+  https://github.com/stratis-storage/libblkid-rs/pull/159
+  https://github.com/stratis-storage/libblkid-rs/pull/158
+  https://github.com/stratis-storage/libblkid-rs/pull/145
+
+
 libblkid-rs 0.3.2
 =================
 Recommended Rust toolchain version: 1.76.0
