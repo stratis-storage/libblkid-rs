@@ -16,6 +16,6 @@ keywords = ["storage"]
 cc = "1.0.45"
 
 [build-dependencies.bindgen]
-default_features = false
+default-features = false
 features = ["runtime"]
 version = "0.69.0"
