@@ -25,3 +25,15 @@ uuid = "1.0.0"
 [features]
 default = []
 deprecated = []
+
+[lints.rust]
+warnings = { level = "deny" }
+future_incompatible = { level = "deny", priority = 1 }
+unused = { level = "deny", priority = 2}
+rust_2018_idioms = { level = "deny", priority = 3 }
+nonstandard_style = { level = "deny", priority = 4 }
+
+[lints.clippy]
+all = { level = "deny" }
+cargo = { level = "deny" , priority = 1}
+from_over_into = { level = "allow", priority = 2 }
