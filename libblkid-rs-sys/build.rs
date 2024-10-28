@@ -3,9 +3,21 @@ use bindgen::Builder;
 use std::{env, path::PathBuf};
 
 fn main() {
-    println!("cargo:rustc-link-lib=blkid");
+    let mut pkg_config = pkg_config::Config::new();
+    let pkg_config = pkg_config.atleast_version("2.33.2");
+    #[cfg(feature = "static")]
+    {
+        pkg_config.statik(true);
+    }
+    let libblkid = pkg_config.probe("blkid").expect("Failed to find libblkid?");
 
     let bindings = Builder::default()
+        .clang_args(
+            libblkid
+                .include_paths
+                .iter()
+                .map(|include| format!("-I{}", include.display())),
+        )
         .header("header.h")
         .size_t_is_usize(true)
         .generate()

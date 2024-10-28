@@ -14,6 +14,7 @@ keywords = ["storage"]
 
 [build-dependencies]
 cc = "1.0.45"
+pkg-config = "0.3.31"
 
 [build-dependencies.bindgen]
 default-features = false
@@ -30,3 +31,6 @@ nonstandard_style = { level = "deny", priority = 4 }
 [lints.clippy]
 all = { level = "deny" }
 cargo = { level = "deny" , priority = 1}
+
+[features]
+static = []
