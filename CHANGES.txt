@@ -4,6 +4,12 @@ Recommended Rust toolchain version: 1.76.0
 Recommended development release: Fedora 39
 
 - Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/170
+  https://github.com/stratis-storage/libblkid-rs/pull/169
+  https://github.com/stratis-storage/libblkid-rs/pull/168
+  https://github.com/stratis-storage/libblkid-rs/pull/167
+  https://github.com/stratis-storage/libblkid-rs/pull/166
+  https://github.com/stratis-storage/libblkid-rs/pull/165
   https://github.com/stratis-storage/libblkid-rs/pull/164
   https://github.com/stratis-storage/libblkid-rs/pull/163
   https://github.com/stratis-storage/libblkid-rs/pull/162
@@ -11,6 +17,7 @@ Recommended development release: Fedora 39
   https://github.com/stratis-storage/libblkid-rs/pull/160
   https://github.com/stratis-storage/libblkid-rs/pull/159
   https://github.com/stratis-storage/libblkid-rs/pull/158
+  https://github.com/stratis-storage/libblkid-rs/pull/145
 
 
 libblkid-rs 0.3.2
