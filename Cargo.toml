@@ -25,6 +25,7 @@ uuid = "1.0.0"
 [features]
 default = []
 deprecated = []
+static = ["libblkid-rs-sys/static"]
 
 [lints.rust]
 warnings = { level = "deny" }
