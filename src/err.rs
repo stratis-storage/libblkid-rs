@@ -54,7 +54,7 @@ pub enum BlkidErr {
     /// An unspecified error type and an error message providing more information
     Other(String),
     /// An error code was returned by libblkid
-    LibErr,
+    LibErr(i64),
 }
 
 impl Display for BlkidErr {
@@ -72,7 +72,7 @@ impl Display for BlkidErr {
             BlkidErr::IO(ref e) => write!(f, "An IO error occurred: {e}"),
             BlkidErr::Uuid(ref e) => write!(f, "A UUID error occurred: {e}"),
             BlkidErr::Other(ref s) => write!(f, "{s}"),
-            BlkidErr::LibErr => write!(f, "libblkid returned an error code indicating an operation could not be completed successfully"),
+            BlkidErr::LibErr(code) => write!(f, "libblkid returned an error code indicating an operation could not be completed successfully: {code}"),
         }
     }
 }

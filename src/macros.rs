@@ -24,7 +24,7 @@ macro_rules! errno {
     ($ret_expr:expr) => {
         match $ret_expr {
             i if i == 0 => Ok(()),
-            i if i < 0 => Err($crate::err::BlkidErr::LibErr),
+            i if i < 0 => Err($crate::err::BlkidErr::LibErr(i64::from(i))),
             _ => Err($crate::err::BlkidErr::PositiveReturnCode),
         }
     };
@@ -34,7 +34,7 @@ macro_rules! errno_ptr {
     ($ret_expr:expr) => {{
         let ptr = $ret_expr;
         if ptr.is_null() {
-            Err($crate::err::BlkidErr::LibErr)
+            Err($crate::err::BlkidErr::LibErr(0))
         } else {
             Ok(ptr)
         }
@@ -55,7 +55,7 @@ macro_rules! option_ptr {
 macro_rules! errno_with_ret {
     ($ret_expr:expr) => {
         match $ret_expr {
-            i if i < 0 => Err($crate::err::BlkidErr::LibErr),
+            i if i < 0 => Err($crate::err::BlkidErr::LibErr(i64::from(i))),
             i => Ok(i),
         }
     };
