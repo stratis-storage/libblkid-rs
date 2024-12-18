@@ -237,7 +237,7 @@ impl BlkidProbe {
     pub fn do_safeprobe(&mut self) -> Result<BlkidSafeprobeRet> {
         let ret = unsafe { libblkid_rs_sys::blkid_do_safeprobe(self.0) };
         if ret == -1 {
-            Err(BlkidErr::LibErr)
+            Err(BlkidErr::LibErr(-1))
         } else {
             Ok(BlkidSafeprobeRet::try_from(ret)?)
         }

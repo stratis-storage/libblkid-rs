@@ -58,15 +58,15 @@ pub fn parse_tag_string(tag_string: &str) -> Result<(String, String)> {
     let tag_cstring = CString::new(tag_string)?;
     let mut type_: *mut c_char = ptr::null_mut();
     let mut value: *mut c_char = ptr::null_mut();
-    if unsafe {
+    let ret = unsafe {
         libblkid_rs_sys::blkid_parse_tag_string(
             tag_cstring.as_ptr(),
             &mut type_ as *mut *mut _,
             &mut value as *mut *mut _,
         )
-    } < 0
-    {
-        Err(BlkidErr::LibErr)
+    };
+    if ret < 0 {
+        Err(BlkidErr::LibErr(i64::from(ret)))
     } else {
         assert!(!type_.is_null() && !value.is_null());
         let type_str = unsafe { CStr::from_ptr(type_) };
