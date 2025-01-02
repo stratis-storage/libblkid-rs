@@ -44,13 +44,13 @@ impl BlkidDevno {
 
     /// Create a `BlkidDevno` from major and minor numbers.
     pub fn from_device_numbers(major: maj_t, minor: min_t) -> Self {
-        #[allow(unused_unsafe)] // No longer unsafe in libc 0.2.133
+        #[allow(unused_unsafe, reason = "No longer unsafe in libc 0.2.133")]
         BlkidDevno(unsafe { libc::makedev(major, minor) })
     }
 
     /// Get the major number.
     pub fn major(&self) -> maj_t {
-        #[allow(unused_unsafe)]
+        #[allow(unused_unsafe, reason = "No longer unsafe in libc 0.2.171")]
         unsafe {
             libc::major(self.0)
         }
@@ -58,7 +58,7 @@ impl BlkidDevno {
 
     /// Get the minor number.
     pub fn minor(&self) -> min_t {
-        #[allow(unused_unsafe)]
+        #[allow(unused_unsafe, reason = "No longer unsafe in libc 0.2.171")]
         unsafe {
             libc::minor(self.0)
         }
