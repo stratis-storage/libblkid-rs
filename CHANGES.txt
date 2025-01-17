@@ -1,4 +1,4 @@
-libblkid-rs 0.3.3 (UNRELEASED)
+libblkid-rs 0.4.0 (UNRELEASED)
 ==============================
 Recommended Rust toolchain version: 1.83.0
 Recommended development release: Fedora 40
