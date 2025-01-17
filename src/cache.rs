@@ -46,6 +46,7 @@ impl BlkidCache {
             libblkid_rs_sys::blkid_get_cache(
                 &mut cache as *mut _,
                 filename_cstring
+                    .as_ref()
                     .map(|s| s.as_ptr())
                     .unwrap_or(ptr::null_mut()),
             )
