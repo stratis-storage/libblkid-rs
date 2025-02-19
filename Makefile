@@ -46,11 +46,6 @@ verify-dependency-bounds: test-set-lower-bounds
 	${SET_LOWER_BOUNDS} ${MANIFEST_PATH_ARGS}
 	cargo build ${MANIFEST_PATH_ARGS} --all-features
 
-verify-dependency-bounds-sys: test-set-lower-bounds
-	cargo build ${MANIFEST_PATH_ARGS} --all-features
-	${SET_LOWER_BOUNDS} ${MANIFEST_PATH_ARGS}
-	cargo build ${MANIFEST_PATH_ARGS} --all-features
-
 test-compare-fedora-versions:
 	echo "Testing that COMPARE_FEDORA_VERSIONS environment variable is set to a valid path"
 	test -e "${COMPARE_FEDORA_VERSIONS}"
@@ -97,5 +92,4 @@ test:
 	test-compare-fedora-versions
 	test-set-lower-bounds
 	verify-dependency-bounds
-	verify-dependency-bounds-sys
 	yamllint
