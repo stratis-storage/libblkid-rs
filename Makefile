@@ -19,6 +19,12 @@ else
   CLIPPY_OPTS = --fix
 endif
 
+ifeq ($(origin MINIMAL), undefined)
+  BUILD = build
+else
+  BUILD = minimal-versions build --direct
+endif
+
 IGNORE_ARGS ?=
 
 ${HOME}/.cargo/bin/cargo-audit:
@@ -28,23 +34,13 @@ audit: ${HOME}/.cargo/bin/cargo-audit
 	PATH=${HOME}/.cargo/bin:${PATH} cargo audit -D warnings
 
 build:
-	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo build
+	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo ${BUILD}
 
 build-deprecated:
-	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo build --features=deprecated
+	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo ${BUILD} --features=deprecated
 
 check-typos:
 	typos
-
-SET_LOWER_BOUNDS ?=
-test-set-lower-bounds:
-	echo "Testing that SET_LOWER_BOUNDS environment variable is set to a valid path"
-	test -e "${SET_LOWER_BOUNDS}"
-
-verify-dependency-bounds: test-set-lower-bounds
-	cargo build ${MANIFEST_PATH_ARGS} --all-features
-	${SET_LOWER_BOUNDS} ${MANIFEST_PATH_ARGS}
-	cargo build ${MANIFEST_PATH_ARGS} --all-features
 
 test-compare-fedora-versions:
 	echo "Testing that COMPARE_FEDORA_VERSIONS environment variable is set to a valid path"
@@ -73,7 +69,7 @@ fmt-ci:
 	cargo fmt -- --check
 
 release:
-	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo build --release
+	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo ${BUILD} --release
 
 test:
 	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" RUST_BACKTRACE=1 cargo test
@@ -90,6 +86,4 @@ test:
 	release
 	test
 	test-compare-fedora-versions
-	test-set-lower-bounds
-	verify-dependency-bounds
 	yamllint
