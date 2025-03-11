@@ -26,12 +26,18 @@ impl BlkidDevno {
 
     /// Get the major number.
     pub fn major(&self) -> libc::c_uint {
-        unsafe { libc::major(self.0) }
+        #[allow(unused_unsafe)]
+        unsafe {
+            libc::major(self.0)
+        }
     }
 
     /// Get the minor number.
     pub fn minor(&self) -> libc::c_uint {
-        unsafe { libc::minor(self.0) }
+        #[allow(unused_unsafe)]
+        unsafe {
+            libc::minor(self.0)
+        }
     }
 
     /// Get device name from device number
