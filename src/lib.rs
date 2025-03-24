@@ -50,7 +50,7 @@ pub use crate::{
     cache::BlkidCache,
     consts::*,
     dev::{BlkidDev, BlkidDevIter},
-    devno::BlkidDevno,
+    devno::{maj_t, min_t, BlkidDevno},
     encode::{encode_string, safe_string},
     err::{BlkidErr, Result},
     partition::{BlkidPartition, BlkidPartlist, BlkidParttable},

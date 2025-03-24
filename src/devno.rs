@@ -9,6 +9,30 @@ use crate::err::Result;
 /// Device number
 pub struct BlkidDevno(libc::dev_t);
 
+#[cfg(target_os = "linux")]
+pub mod ty {
+    /// Type alias for device major number
+    #[allow(non_camel_case_types)]
+    pub type maj_t = libc::c_uint;
+
+    /// Type alias for device minor number
+    #[allow(non_camel_case_types)]
+    pub type min_t = libc::c_uint;
+}
+
+#[cfg(all(unix, not(target_os = "linux"), not(target_os = "android")))]
+pub mod ty {
+    /// Type alias for device major number
+    #[allow(non_camel_case_types)]
+    pub type maj_t = i32;
+
+    /// Type alias for device minor number
+    #[allow(non_camel_case_types)]
+    pub type min_t = i32;
+}
+
+pub use ty::*;
+
 impl BlkidDevno {
     pub(crate) fn new(devno: libc::dev_t) -> Self {
         BlkidDevno(devno)
@@ -19,13 +43,13 @@ impl BlkidDevno {
     }
 
     /// Create a `BlkidDevno` from major and minor numbers.
-    pub fn from_device_numbers(major: libc::c_uint, minor: libc::c_uint) -> Self {
+    pub fn from_device_numbers(major: maj_t, minor: min_t) -> Self {
         #[allow(unused_unsafe)] // No longer unsafe in libc 0.2.133
         BlkidDevno(unsafe { libc::makedev(major, minor) })
     }
 
     /// Get the major number.
-    pub fn major(&self) -> libc::c_uint {
+    pub fn major(&self) -> maj_t {
         #[allow(unused_unsafe)]
         unsafe {
             libc::major(self.0)
@@ -33,7 +57,7 @@ impl BlkidDevno {
     }
 
     /// Get the minor number.
-    pub fn minor(&self) -> libc::c_uint {
+    pub fn minor(&self) -> min_t {
         #[allow(unused_unsafe)]
         unsafe {
             libc::minor(self.0)
