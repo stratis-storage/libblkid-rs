@@ -9,7 +9,10 @@ fn main() {
     {
         pkg_config.statik(true);
     }
-    let libblkid = pkg_config.probe("blkid").expect("Failed to find libblkid?");
+    let libblkid = pkg_config
+        .cargo_metadata(false)
+        .probe("blkid")
+        .expect("Failed to find libblkid?");
 
     let bindings = Builder::default()
         .clang_args(
