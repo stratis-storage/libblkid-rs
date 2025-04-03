@@ -9,10 +9,16 @@ fn main() {
     {
         pkg_config.statik(true);
     }
-    let libblkid = pkg_config
-        .cargo_metadata(false)
-        .probe("blkid")
-        .expect("Failed to find libblkid?");
+
+    let host = env::var("HOST").unwrap();
+    let target = env::var("TARGET").unwrap();
+
+    if host != target {
+        // cross-compilation
+        pkg_config.cargo_metadata(false);
+    }
+
+    let libblkid = pkg_config.probe("blkid").expect("Failed to find libblkid?");
 
     let bindings = Builder::default()
         .clang_args(
