@@ -8,4 +8,7 @@ fn main() {
     for arg in libblkid.libs.iter() {
         println!("cargo:rustc-link-arg=-l{arg}");
     }
+    for arg in libblkid.link_paths.iter() {
+        println!("cargo:rustc-link-search={}", arg.display());
+    }
 }
