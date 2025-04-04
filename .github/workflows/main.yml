@@ -62,6 +62,38 @@ jobs:
       - name: Test ${{ matrix.task }} on ${{ matrix.toolchain }} toolchain
         run: make -f Makefile ${{ matrix.task }}
 
+  # MacOS checks
+  macos-checks:
+    strategy:
+      matrix:
+        include:
+          # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
+          - components: cargo
+            toolchain: 1.86.0
+            task: build
+          - components: cargo
+            toolchain: 1.86.0
+            task: test
+          - components: cargo
+            toolchain: 1.74.0
+            task: build
+          - components: cargo
+            toolchain: 1.74.0
+            task: test
+    env:
+      PKG_CONFIG_PATH: /opt/homebrew/opt/util-linux/lib/pkgconfig
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          components: ${{ matrix.components }}
+          toolchain: ${{ matrix.toolchain }}
+      - name: Install libblkid
+        run: brew install util-linux
+      - name: Build libblkid-rust
+        run: make ${{ matrix.task }}
+
   # VERIFICATION OF TEST INFRASTRUCTURE
   yamllint:
     runs-on: ubuntu-22.04
