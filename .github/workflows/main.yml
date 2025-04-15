@@ -14,7 +14,6 @@ on:
       - "CHANGES.txt"
       - "**/README.md"
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -22,7 +21,6 @@ jobs:
     strategy:
       matrix:
         include:
-          # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: rustfmt
             toolchain: 1.86.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: fmt-ci
@@ -41,7 +39,6 @@ jobs:
           - components: cargo
             toolchain: 1.86.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: check-typos
-          # MANDATORY TESTING USING LOWEST SUPPORTED COMPILER
           - components: cargo
             toolchain: 1.74.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: test
@@ -67,18 +64,17 @@ jobs:
     strategy:
       matrix:
         include:
-          # MANDATORY CHECKS USING CURRENT DEVELOPMENT COMPILER
           - components: cargo
-            toolchain: 1.86.0
+            toolchain: 1.86.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.86.0
+            toolchain: 1.86.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: test
           - components: cargo
-            toolchain: 1.74.0
+            toolchain: 1.74.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.74.0
+            toolchain: 1.74.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: test
     env:
       PKG_CONFIG_PATH: /opt/homebrew/opt/util-linux/lib/pkgconfig
