@@ -3,7 +3,16 @@ libblkid-rs 0.4.1
 Recommended Rust toolchain version: 1.85.0
 Recommended development release: Fedora 40
 
+- Add support for compilation on macOS:
+  https://github.com/stratis-storage/libblkid-rs/pull/193
+  https://github.com/stratis-storage/libblkid-rs/pull/191
+  https://github.com/stratis-storage/libblkid-rs/pull/190
+
 - Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/197
+  https://github.com/stratis-storage/libblkid-rs/pull/196
+  https://github.com/stratis-storage/libblkid-rs/pull/195
+  https://github.com/stratis-storage/libblkid-rs/pull/194
   https://github.com/stratis-storage/libblkid-rs/pull/189
   https://github.com/stratis-storage/libblkid-rs/pull/188
   https://github.com/stratis-storage/libblkid-rs/pull/187
