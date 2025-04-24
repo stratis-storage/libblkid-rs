@@ -1,4 +1,4 @@
-use bindgen::{Builder, RustTarget};
+use bindgen::Builder;
 
 use std::{env, path::PathBuf};
 
@@ -12,7 +12,7 @@ fn main() {
     let libblkid = pkg_config.probe("blkid").expect("Failed to find libblkid?");
 
     let bindings = Builder::default()
-        .rust_target(RustTarget::Stable_1_73)
+        .rust_target(env!("CARGO_PKG_RUST_VERSION").parse().expect("valid"))
         .clang_args(
             libblkid
                 .include_paths
