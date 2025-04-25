@@ -8,10 +8,9 @@ Recommended development release: Fedora 41
   https://github.com/stratis-storage/libblkid-rs/pull/191
   https://github.com/stratis-storage/libblkid-rs/pull/190
 
-- Increase lowest supported Rust version to 1.77.0:
-  https://github.com/stratis-storage/libblkid-rs/pull/199
-
 - Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/200
+  https://github.com/stratis-storage/libblkid-rs/pull/199
   https://github.com/stratis-storage/libblkid-rs/pull/197
   https://github.com/stratis-storage/libblkid-rs/pull/196
   https://github.com/stratis-storage/libblkid-rs/pull/195
