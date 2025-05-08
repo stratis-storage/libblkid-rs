@@ -17,8 +17,6 @@ cc = "1.0.45"
 pkg-config = "0.3.31"
 
 [build-dependencies.bindgen]
-default-features = false
-features = ["runtime"]
 version = "0.71.0"
 
 [lints.rust]
