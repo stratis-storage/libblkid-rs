@@ -50,9 +50,9 @@ check-fedora-versions: test-compare-fedora-versions
 	${COMPARE_FEDORA_VERSIONS} ${MANIFEST_PATH_ARGS} ${FEDORA_RELEASE_ARGS} ${IGNORE_ARGS}
 
 clippy:
-	cargo clippy --all-features ${CLIPPY_OPTS}
+	cargo clippy ${CLIPPY_OPTS}
 	(cd libblkid-rs-sys && \
-        cargo clippy --all-features ${CLIPPY_OPTS})
+        cargo clippy ${CLIPPY_OPTS})
 
 docs-rust:
 	cargo doc --no-deps --package libblkid-rs --package libblkid-rs-sys
