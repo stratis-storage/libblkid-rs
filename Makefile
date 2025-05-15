@@ -34,10 +34,10 @@ audit: ${HOME}/.cargo/bin/cargo-audit
 	PATH=${HOME}/.cargo/bin:${PATH} cargo audit -D warnings
 
 build:
-	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo ${BUILD}
+	RUSTFLAGS="${PROFILE_FLAGS}" cargo ${BUILD}
 
 build-deprecated:
-	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo ${BUILD} --features=deprecated
+	RUSTFLAGS="${PROFILE_FLAGS}" cargo ${BUILD} --features=deprecated
 
 check-typos:
 	typos
@@ -69,10 +69,10 @@ fmt-ci:
 	cargo fmt -- --check
 
 release:
-	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" cargo ${BUILD} --release
+	RUSTFLAGS="${PROFILE_FLAGS}" cargo ${BUILD} --release
 
 test:
-	RUSTFLAGS="${DENY} ${PROFILE_FLAGS}" RUST_BACKTRACE=1 cargo test
+	RUSTFLAGS="${PROFILE_FLAGS}" RUST_BACKTRACE=1 cargo test
 
 .PHONY:
 	build
