@@ -26,6 +26,10 @@ uuid = "1.0.0"
 default = []
 deprecated = []
 static = ["libblkid-rs-sys/static"]
+bindgen_stable_182_rust_target = ["libblkid-rs-sys/bindgen_stable_182_rust_target"]
+bindgen_stable_177_rust_target = ["libblkid-rs-sys/bindgen_stable_177_rust_target"]
+bindgen_lowest_rust_target = ["libblkid-rs-sys/bindgen_lowest_rust_target"]
+bindgen_nightly_rust_target = ["libblkid-rs-sys/bindgen_nightly_rust_target"]
 
 [lints.rust]
 warnings = { level = "deny" }
