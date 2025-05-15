@@ -1,8 +1,5 @@
 use bindgen::Builder;
 
-#[cfg(any(feature = "bindgen_stable_182_rust_target", feature="bindgen_stable_177_rust_target"))]
-use bindgen::RustTarget;
-
 use std::{env, path::PathBuf};
 
 fn main() {
@@ -14,7 +11,8 @@ fn main() {
     }
     let libblkid = pkg_config.probe("blkid").expect("Failed to find libblkid?");
 
-    let builder = Builder::default()
+    let bindings = Builder::default()
+        .rust_target(env!("CARGO_PKG_RUST_VERSION").parse().expect("valid"))
         .clang_args(
             libblkid
                 .include_paths
@@ -22,27 +20,9 @@ fn main() {
                 .map(|include| format!("-I{}", include.display())),
         )
         .header("header.h")
-        .size_t_is_usize(true);
-
-    #[cfg(feature = "bindgen_lowest_rust_target")]
-    let builder = builder.rust_target(env!("CARGO_PKG_RUST_VERSION").parse().expect("valid"));
-
-    #[cfg(feature = "bindgen_stable_182_rust_target")]
-    let builder = builder.rust_target(match RustTarget::stable(82,0) {
-        Err(_) => unreachable!("valid rust target"),
-        Ok(t) => t,
-    });
-
-    #[cfg(feature = "bindgen_stable_177_rust_target")]
-    let builder = builder.rust_target(match RustTarget::stable(77,0) {
-        Err(_) => unreachable!("valid rust target"),
-        Ok(t) => t,
-    });
-
-    let bindings = builder
+        .size_t_is_usize(true)
         .generate()
         .expect("Unable to generate bindings");
-
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
     bindings
