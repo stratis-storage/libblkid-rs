@@ -27,11 +27,8 @@ endif
 
 IGNORE_ARGS ?=
 
-${HOME}/.cargo/bin/cargo-audit:
-	cargo install cargo-audit
-
-audit: ${HOME}/.cargo/bin/cargo-audit
-	PATH=${HOME}/.cargo/bin:${PATH} cargo audit -D warnings
+audit:
+	cargo audit -D warnings
 
 build:
 	RUSTFLAGS="${PROFILE_FLAGS}" cargo ${BUILD}
@@ -75,6 +72,7 @@ test:
 	RUSTFLAGS="${PROFILE_FLAGS}" RUST_BACKTRACE=1 cargo test
 
 .PHONY:
+	audit
 	build
 	check-fedora-versions
 	check-typos
