@@ -9,27 +9,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  allowed_failures:
-    continue-on-error: true
-    strategy:
-      matrix:
-        include:
-          - components: cargo
-            toolchain: 1.86.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-            task: audit
+  audit:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
         with:
-          components: ${{ matrix.components }}
-          toolchain: ${{ matrix.toolchain }}
+          components: cargo
+          toolchain: 1.86.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
       - name: Install dependencies
         run: |
           sudo apt-get -q update
           sudo apt-get -y install libblkid-dev
-      - name: Test ${{ matrix.task }} on ${{ matrix.toolchain }} toolchain
-        run: make -f Makefile ${{ matrix.task }}
+      - uses: baptiste0928/cargo-install@v3
+        with:
+          crate: cargo-audit
+      - name: Run audit check
+        run: make audit
 
   checks-with-ci-repo:
     runs-on: ubuntu-22.04
