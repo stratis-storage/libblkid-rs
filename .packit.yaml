@@ -1,0 +1,54 @@
+upstream_project_url: https://github.com/stratis-storage/libblkid-rs
+
+packages:
+  libblkid-rs-sys:
+    specfile_path: ../distro/rust-libblkid-rs-sys.spec
+    downstream_package_name: rust-libblkid-rs-sys
+    actions:
+      post-upstream-clone:
+        - "mkdir ../distro"
+        - "bash -c '(cd ../distro; wget https://src.fedoraproject.org/rpms/rust-libblkid-rs-sys/raw/rawhide/f/rust-libblkid-rs-sys.spec https://src.fedoraproject.org/rpms/rust-libblkid-rs-sys/raw/rawhide/f/rust2rpm.toml)'"
+        - "cargo install cargo-get"
+      create-archive:
+        - "bash -c '(cd libblkid-rs-sys; cargo package --no-verify)'"
+        - "bash -c '(cd ../distro; rust2rpm libblkid-rs-sys)'"
+        - "bash -c 'echo \"libblkid-rs-sys/target/package/libblkid-rs-sys-$(cd libblkid-rs-sys; cargo get package.version).crate\"'"
+      get-current-version:
+        - "bash -c '(cd libblkid-rs-sys; cargo get package.version)'"
+
+  libblkid-rs:
+    specfile_path: ../distro/rust-libblkid-rs.spec
+    downstream_package_name: rust-libblkid-rs
+    actions:
+      post-upstream-clone:
+        - "mkdir ../distro"
+        - "bash -c '(cd ../distro; wget https://src.fedoraproject.org/rpms/rust-libblkid-rs/raw/rawhide/f/rust-libblkid-rs.spec)'"
+        - "cargo install cargo-get"
+      create-archive:
+        - "cargo package --no-verify"
+        - "bash -c '(cd ../distro; rust2rpm libblkid-rs)'"
+        - "bash -c 'echo \"target/package/libblkid-rs-$(cargo get package.version).crate\"'"
+      get-current-version:
+        - "cargo get package.version"
+
+srpm_build_deps:
+  - cargo
+  - rust2rpm
+  - rust2rpm-helper
+  - wget2
+  - wget2-wget
+
+jobs:
+  - job: copr_build
+    trigger: pull_request
+    targets:
+      - fedora-all
+
+  - job: copr_build
+    trigger: commit
+    targets:
+      - fedora-all
+
+notifications:
+  pull_request:
+    successful_build: true
