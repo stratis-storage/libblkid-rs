@@ -40,7 +40,7 @@ jobs:
             toolchain: 1.89.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: check-typos
           - components: cargo
-            toolchain: 1.74.0  # LOWEST SUPPORTED RUST TOOLCHAIN
+            toolchain: 1.77.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: test
     runs-on: ubuntu-22.04
     steps:
@@ -71,10 +71,10 @@ jobs:
             toolchain: 1.89.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: test
           - components: cargo
-            toolchain: 1.74.0  # LOWEST SUPPORTED RUST TOOLCHAIN
+            toolchain: 1.77.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.74.0  # LOWEST SUPPORTED RUST TOOLCHAIN
+            toolchain: 1.77.0  # LOWEST SUPPORTED RUST TOOLCHAIN
             task: test
     env:
       PKG_CONFIG_PATH: /opt/homebrew/opt/util-linux/lib/pkgconfig
