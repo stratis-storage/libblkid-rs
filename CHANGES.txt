@@ -1,7 +1,19 @@
 libblkid-rs 0.4.1
 =================
-Recommended Rust toolchain version: 1.86.0
+Recommended Rust toolchain version: 1.88.0
 Recommended development release: Fedora 41
+
+- Update lowest supported Rust to 1.77:
+  https://github.com/stratis-storage/libblkid-rs/pull/217
+
+- libblkid-rs-sys: Allow default features for bindgen dependency:
+  https://github.com/stratis-storage/libblkid-rs/pull/205
+
+- libblkid-rs-sys: Increase bindgen dependency lower bound to 0.71.0:
+  https://github.com/stratis-storage/libblkid-rs/pull/198
+
+- libblkid-rs-sys: Pin bindgen Rust target to current default:
+  https://github.com/stratis-storage/libblkid-rs/pull/201
 
 - Add support for compilation on macOS:
   https://github.com/stratis-storage/libblkid-rs/pull/193
@@ -9,6 +21,18 @@ Recommended development release: Fedora 41
   https://github.com/stratis-storage/libblkid-rs/pull/190
 
 - Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/216
+  https://github.com/stratis-storage/libblkid-rs/pull/215
+  https://github.com/stratis-storage/libblkid-rs/pull/214
+  https://github.com/stratis-storage/libblkid-rs/pull/213
+  https://github.com/stratis-storage/libblkid-rs/pull/212
+  https://github.com/stratis-storage/libblkid-rs/pull/211
+  https://github.com/stratis-storage/libblkid-rs/pull/210
+  https://github.com/stratis-storage/libblkid-rs/pull/208
+  https://github.com/stratis-storage/libblkid-rs/pull/207
+  https://github.com/stratis-storage/libblkid-rs/pull/206
+  https://github.com/stratis-storage/libblkid-rs/pull/204
+  https://github.com/stratis-storage/libblkid-rs/pull/202
   https://github.com/stratis-storage/libblkid-rs/pull/200
   https://github.com/stratis-storage/libblkid-rs/pull/199
   https://github.com/stratis-storage/libblkid-rs/pull/197
