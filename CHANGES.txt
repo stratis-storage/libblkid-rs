@@ -3,6 +3,9 @@ libblkid-rs 0.4.1
 Recommended Rust toolchain version: 1.88.0
 Recommended development release: Fedora 41
 
+- Release libblkid-rs-sys v0.3.2:
+  https://github.com/stratis-storage/libblkid-rs/pull/218
+
 - Update lowest supported Rust to 1.77:
   https://github.com/stratis-storage/libblkid-rs/pull/217
 
