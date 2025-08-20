@@ -44,7 +44,7 @@ jobs:
             task: test
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@master
         with:
           components: ${{ matrix.components }}
@@ -80,7 +80,7 @@ jobs:
       PKG_CONFIG_PATH: /opt/homebrew/opt/util-linux/lib/pkgconfig
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@master
         with:
           components: ${{ matrix.components }}
@@ -96,7 +96,7 @@ jobs:
     container:
       image: fedora:41  # CURRENT DEVELOPMENT ENVIRONMENT
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install dependencies for Fedora
         run: dnf install -y make yamllint
       - name: Run yamllint
