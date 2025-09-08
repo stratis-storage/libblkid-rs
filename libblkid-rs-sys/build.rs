@@ -3,6 +3,11 @@ use bindgen::Builder;
 use std::{env, path::PathBuf};
 
 fn main() {
+    let _ = env::var("LIBBLKID_RS_PKG_CONFIG_PATH").map(|v| env::set_var("PKG_CONFIG_PATH", v));
+    let _ = env::var("LIBBLKID_RS_PKG_CONFIG_LIBDIR").map(|v| env::set_var("PKG_CONFIG_LIBDIR", v));
+    let _ = env::var("LIBBLKID_RS_PKG_CONFIG_SYSROOT_DIR")
+        .map(|v| env::set_var("PKG_CONFIG_SYSROOT_DIR", v));
+
     let mut pkg_config = pkg_config::Config::new();
     let pkg_config = pkg_config.atleast_version("2.33.2");
     #[cfg(feature = "static")]
