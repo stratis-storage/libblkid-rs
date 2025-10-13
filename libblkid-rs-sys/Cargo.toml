@@ -17,7 +17,7 @@ cc = "1.0.45"
 pkg-config = "0.3.31"
 
 [build-dependencies.bindgen]
-version = "0.71.0"
+version = "0.72.0"
 
 [lints.rust]
 warnings = { level = "deny" }
