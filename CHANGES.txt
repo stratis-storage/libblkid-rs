@@ -1,6 +1,6 @@
 libblkid-rs 0.4.1
 =================
-Recommended Rust toolchain version: 1.88.0
+Recommended Rust toolchain version: 1.90.0
 Recommended development release: Fedora 41
 
 - Release libblkid-rs-sys v0.3.2:
@@ -8,6 +8,9 @@ Recommended development release: Fedora 41
 
 - Update lowest supported Rust to 1.77:
   https://github.com/stratis-storage/libblkid-rs/pull/217
+
+- libblkid-rs-sys: Increase bindgen dependency lower bound to 0.72.0:
+  https://github.com/stratis-storage/libblkid-rs/pull/222
 
 - libblkid-rs-sys: Allow default features for bindgen dependency:
   https://github.com/stratis-storage/libblkid-rs/pull/205
@@ -24,6 +27,9 @@ Recommended development release: Fedora 41
   https://github.com/stratis-storage/libblkid-rs/pull/190
 
 - Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/224
+  https://github.com/stratis-storage/libblkid-rs/pull/221
+  https://github.com/stratis-storage/libblkid-rs/pull/219
   https://github.com/stratis-storage/libblkid-rs/pull/216
   https://github.com/stratis-storage/libblkid-rs/pull/215
   https://github.com/stratis-storage/libblkid-rs/pull/214
