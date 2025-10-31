@@ -1,6 +1,6 @@
 [package]
 name = "libblkid-rs-sys"
-version = "0.3.2"
+version = "0.3.3"
 authors = ["John Baublitz <jbaublitz@redhat.com>"]
 edition = "2021"
 rust-version = "1.77.0"  # LOWEST SUPPORTED RUST TOOLCHAIN
