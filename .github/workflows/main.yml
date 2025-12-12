@@ -22,22 +22,22 @@ jobs:
       matrix:
         include:
           - components: rustfmt
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: fmt-ci
           - components: clippy
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: clippy
           - components: cargo
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: test
           - components: cargo
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: docs-ci
           - components: cargo
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: check-typos
           - components: cargo
             toolchain: 1.82.0  # LOWEST SUPPORTED RUST TOOLCHAIN
@@ -67,10 +67,10 @@ jobs:
       matrix:
         include:
           - components: cargo
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: build
           - components: cargo
-            toolchain: 1.91.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
+            toolchain: 1.92.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: test
           - components: cargo
             toolchain: 1.82.0  # LOWEST SUPPORTED RUST TOOLCHAIN
