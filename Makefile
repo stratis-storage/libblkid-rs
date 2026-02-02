@@ -52,7 +52,7 @@ docs-rust:
 docs-ci: docs-rust
 
 yamllint:
-	yamllint --strict .github/workflows/*.yml
+	yamllint --strict .github/workflows/*.yml .packit.yaml .yamllint.yaml
 
 fmt:
 	cargo fmt
