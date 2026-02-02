@@ -1,0 +1,3 @@
+[default.extend-words]
+# "consts" is a usual abbreviation for "constants"
+consts = "consts"
