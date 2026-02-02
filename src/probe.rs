@@ -219,7 +219,7 @@ impl BlkidProbe {
     }
 
     /// Get list of probed partitions.
-    pub fn get_partitions(&mut self) -> Result<BlkidPartlist> {
+    pub fn get_partitions(&mut self) -> Result<BlkidPartlist<'_>> {
         Ok(BlkidPartlist::new(errno_ptr!(unsafe {
             libblkid_rs_sys::blkid_probe_get_partitions(self.0)
         })?))
