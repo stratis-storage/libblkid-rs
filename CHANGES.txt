@@ -1,3 +1,20 @@
+libblkid-rs 0.4.2
+=================
+Recommended Rust toolchain version: 1.93.0
+Recommended development release: Fedora 42
+
+- Fix unsoundness in BlkidProbe by adding lifetimes:
+  https://github.com/stratis-storage/libblkid-rs/pull/234
+
+- Increase lowest supported version of Rust to 1.85:
+  https://github.com/stratis-storage/libblkid-rs/pull/231
+
+- Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/237
+  https://github.com/stratis-storage/libblkid-rs/pull/235
+  https://github.com/stratis-storage/libblkid-rs/pull/232
+
+
 libblkid-rs 0.4.1
 =================
 Recommended Rust toolchain version: 1.92.0
