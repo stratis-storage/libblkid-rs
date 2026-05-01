@@ -1,3 +1,40 @@
+libblkid-rs 0.4.3
+=================
+Recommended Rust toolchain version: 1.99.1
+Recommended development release: Fedora 44
+
+- Increase Rust edition to 2024:
+  https://github.com/stratis-storage/libblkid-rs/pull/250
+  https://github.com/stratis-storage/libblkid-rs/pull/249
+  https://github.com/stratis-storage/libblkid-rs/pull/248
+
+- Increase lowest supported version of Rust to 1.89.0:
+  https://github.com/stratis-storage/libblkid-rs/pull/263
+  https://github.com/stratis-storage/libblkid-rs/pull/246
+
+- Tidies and Maintenance:
+  https://github.com/stratis-storage/libblkid-rs/pull/262
+  https://github.com/stratis-storage/libblkid-rs/pull/261
+  https://github.com/stratis-storage/libblkid-rs/pull/260
+  https://github.com/stratis-storage/libblkid-rs/pull/259
+  https://github.com/stratis-storage/libblkid-rs/pull/258
+  https://github.com/stratis-storage/libblkid-rs/pull/257
+  https://github.com/stratis-storage/libblkid-rs/pull/256
+  https://github.com/stratis-storage/libblkid-rs/pull/255
+  https://github.com/stratis-storage/libblkid-rs/pull/254
+  https://github.com/stratis-storage/libblkid-rs/pull/253
+  https://github.com/stratis-storage/libblkid-rs/pull/252
+  https://github.com/stratis-storage/libblkid-rs/pull/251
+  https://github.com/stratis-storage/libblkid-rs/pull/247
+  https://github.com/stratis-storage/libblkid-rs/pull/245
+  https://github.com/stratis-storage/libblkid-rs/pull/244
+  https://github.com/stratis-storage/libblkid-rs/pull/243
+  https://github.com/stratis-storage/libblkid-rs/pull/242
+  https://github.com/stratis-storage/libblkid-rs/pull/241
+  https://github.com/stratis-storage/libblkid-rs/pull/240
+  https://github.com/stratis-storage/libblkid-rs/pull/239
+
+
 libblkid-rs 0.4.2
 =================
 Recommended Rust toolchain version: 1.93.0
