@@ -21,61 +21,64 @@ jobs:
       matrix:
         include:
           - components: rustfmt
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: fmt-ci
           - components: clippy
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: clippy
           - components: cargo
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-            task: build
-          - components: cargo
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-            task: test
-          - components: cargo
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: docs-ci
           - components: cargo
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
             task: check-typos
-          - components: cargo
-            toolchain: 1.85.0  # LOWEST SUPPORTED RUST TOOLCHAIN
-            task: test
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: dtolnay/rust-toolchain@master
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: ${{ matrix.components }}
-          toolchain: ${{ matrix.toolchain }}
       - name: Install dependencies
         run: |
           sudo apt-get -q update
           sudo apt-get -y install libblkid-dev
       - name: Install typos-cli if required
         run: ${{ matrix.task == 'check-typos' && 'cargo install typos-cli' || 'true' }}
-      - name: Test ${{ matrix.task }} on ${{ matrix.toolchain }} toolchain
+      - name: Test ${{ matrix.task }} on CURRENT DEVELOPMENT RUST TOOLCHAIN
         run: make -f Makefile ${{ matrix.task }}
+
+  # Ubuntu checks
+  ubuntu-checks:
+    strategy:
+      matrix:
+        task: [build, test]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Install dependencies
+        run: |
+          sudo apt-get -q update
+          sudo apt-get -y install libblkid-dev
+      - name: Run test on CURRENT DEVELOPMENT RUST TOOLCHAIN
+        run: make ${{ matrix.task }}
+      - name: Install toml-cli
+        run: pip install --user toml-cli
+      - name: Get package MSRV
+        id: msrv
+        run: |
+          PATH="$PATH:$(python3 -m site --user-base)/bin" MSRV=$(toml get --toml-path Cargo.toml "package.rust-version")
+          echo "MSRV=$MSRV" >> "$GITHUB_OUTPUT"
+      - name: Set toolchain override
+        run: /home/runner/.cargo/bin/rustup override set ${{ steps.msrv.outputs.MSRV }}
+      - name: Run test on LOWEST SUPPORTED RUST TOOLCHAIN
+        run: make ${{ matrix.task }}
 
   # MacOS checks
   macos-checks:
     strategy:
       matrix:
-        include:
-          - components: cargo
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-            task: build
-          - components: cargo
-            toolchain: 1.95.0  # CURRENT DEVELOPMENT RUST TOOLCHAIN
-            task: test
-          - components: cargo
-            toolchain: 1.85.0  # LOWEST SUPPORTED RUST TOOLCHAIN
-            task: build
-          - components: cargo
-            toolchain: 1.85.0  # LOWEST SUPPORTED RUST TOOLCHAIN
-            task: test
+        task: [build, test]
     env:
       PKG_CONFIG_PATH: /opt/homebrew/opt/util-linux/lib/pkgconfig
     runs-on: macos-latest
@@ -83,13 +86,21 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          components: ${{ matrix.components }}
-          toolchain: ${{ matrix.toolchain }}
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
       - name: Install libblkid
         run: brew install util-linux
-      - name: Build libblkid-rust
+      - name: Run test on CURRENT DEVELOPMENT RUST TOOLCHAIN
+        run: make ${{ matrix.task }}
+      - name: Install toml-cli
+        run: pip install --user toml-cli
+      - name: Get package MSRV
+        id: msrv
+        run: |
+          PATH="$PATH:$(python3 -m site --user-base)/bin" MSRV=$(toml get --toml-path Cargo.toml "package.rust-version")
+          echo "MSRV=$MSRV" >> "$GITHUB_OUTPUT"
+      - name: Set toolchain override
+        run: /Users/runner/.cargo/bin/rustup override set ${{ steps.msrv.outputs.MSRV }}
+      - name: Run test on LOWEST SUPPORTED RUST TOOLCHAIN
         run: make ${{ matrix.task }}
 
   # VERIFICATION OF TEST INFRASTRUCTURE
