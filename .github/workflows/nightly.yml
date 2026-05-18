@@ -38,6 +38,10 @@ jobs:
         with:
           path: libblkid-rs
           persist-credentials: false
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: cargo
+          rust-src-dir: libblkid-rs
       - name: Install dependencies for Fedora
         run: >
           dnf install -y
@@ -48,9 +52,6 @@ jobs:
           openssl-devel
           python-requests
           python-semantic_version
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          components: cargo
       - name: Check out ci repo
         uses: actions/checkout@v6
         with:
