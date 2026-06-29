@@ -10,7 +10,7 @@ use std::{
 
 use either::Either;
 
-use crate::{cache::BlkidCache, err::BlkidErr, Result};
+use crate::{Result, cache::BlkidCache, err::BlkidErr};
 
 const SECTOR_SIZE: libblkid_rs_sys::blkid_loff_t = 512;
 

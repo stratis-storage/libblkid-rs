@@ -5,10 +5,10 @@
 use std::{ffi::CString, ptr};
 
 use crate::{
+    Result,
     consts::{BlkidProbreqFlags, BlkidUsageFlags},
     err::BlkidErr,
     probe::BlkidProbe,
-    Result,
 };
 
 impl BlkidProbe {
