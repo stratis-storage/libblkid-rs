@@ -9,7 +9,7 @@ use std::{
 
 use libc::c_char;
 
-use crate::{err::BlkidErr, Result};
+use crate::{Result, err::BlkidErr};
 
 /// Iterator for tags associated with a device
 pub struct BlkidTagIter(libblkid_rs_sys::blkid_tag_iterate);

@@ -6,7 +6,7 @@ use std::ffi::CString;
 
 use libc::{c_char, c_int};
 
-use crate::{err::BlkidErr, Result};
+use crate::{Result, err::BlkidErr};
 
 // Shared code for encoding methods
 fn string_shared<F>(string: &str, closure: F) -> Result<String>

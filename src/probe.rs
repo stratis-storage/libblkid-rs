@@ -10,6 +10,7 @@ use std::{
 };
 
 use crate::{
+    Result,
     consts::{
         BlkidFltr, BlkidFullprobeRet, BlkidProbeRet, BlkidProbreqFlags, BlkidSafeprobeRet,
         BlkidSublksFlags, BlkidUsageFlags,
@@ -18,7 +19,6 @@ use crate::{
     err::BlkidErr,
     partition::BlkidPartlist,
     topology::BlkidTopology,
-    Result,
 };
 
 /// A structure for probing block devices.

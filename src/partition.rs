@@ -7,10 +7,10 @@ use std::{ffi::CStr, marker::PhantomData};
 use uuid::Uuid;
 
 use crate::{
+    Result,
     devno::BlkidDevno,
     err::BlkidErr,
     utils::{BlkidBytes, BlkidSectors},
-    Result,
 };
 
 /// A handle for working with partition tables.
