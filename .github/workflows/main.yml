@@ -55,18 +55,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get -q update
-          sudo apt-get -y install libblkid-dev
+          sudo apt-get -y install jq libblkid-dev
       - name: Run test on CURRENT DEVELOPMENT RUST TOOLCHAIN
         run: make ${{ matrix.task }}
-      - name: Install toml-cli
-        run: pip install --user toml-cli
-      - name: Get package MSRV
-        id: msrv
-        run: |
-          PATH="$PATH:$(python3 -m site --user-base)/bin" MSRV=$(toml get --toml-path Cargo.toml "package.rust-version")
-          echo "MSRV=$MSRV" >> "$GITHUB_OUTPUT"
-      - name: Set toolchain override
-        run: /home/runner/.cargo/bin/rustup override set ${{ steps.msrv.outputs.MSRV }}
+      - name: Set toolchain to MSRV
+        uses: stratis-storage/github-actions/set-rust-toolchain@HEAD
       - name: Run test on LOWEST SUPPORTED RUST TOOLCHAIN
         run: make ${{ matrix.task }}
 
@@ -83,19 +76,12 @@ jobs:
         with:
           persist-credentials: false
       - uses: actions-rust-lang/setup-rust-toolchain@v1
-      - name: Install libblkid
-        run: brew install util-linux
+      - name: Install dependencies
+        run: brew install jq util-linux
       - name: Run test on CURRENT DEVELOPMENT RUST TOOLCHAIN
         run: make ${{ matrix.task }}
-      - name: Install toml-cli
-        run: pip install --user toml-cli
-      - name: Get package MSRV
-        id: msrv
-        run: |
-          PATH="$PATH:$(python3 -m site --user-base)/bin" MSRV=$(toml get --toml-path Cargo.toml "package.rust-version")
-          echo "MSRV=$MSRV" >> "$GITHUB_OUTPUT"
-      - name: Set toolchain override
-        run: /Users/runner/.cargo/bin/rustup override set ${{ steps.msrv.outputs.MSRV }}
+      - name: Set toolchain to MSRV
+        uses: stratis-storage/github-actions/set-rust-toolchain@HEAD
       - name: Run test on LOWEST SUPPORTED RUST TOOLCHAIN
         run: make ${{ matrix.task }}
 
