@@ -1,34 +1,24 @@
 [package]
 name = "libblkid-rs-sys"
 version = "0.3.3"
-authors = ["John Baublitz <jbaublitz@redhat.com>"]
-edition = "2024"
-rust-version = "1.89.0"  # LOWEST SUPPORTED RUST TOOLCHAIN
 description = "Low level bindings for libblkid"
-license = "MPL-2.0"
 documentation = "https://docs.rs/libblkid-rs-sys"
-homepage = "https://stratis-storage.github.io"
-repository = "https://github.com/stratis-storage/libblkid-rs"
 categories = ["os::linux-apis", "external-ffi-bindings"]
 keywords = ["storage"]
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
 
 [build-dependencies]
 cc = "1.0.45"
 pkg-config = "0.3.31"
+bindgen = "0.72.0"
 
-[build-dependencies.bindgen]
-version = "0.72.0"
-
-[lints.rust]
-warnings = { level = "deny" }
-future_incompatible = { level = "deny", priority = 1 }
-unused = { level = "deny", priority = 2}
-rust_2018_idioms = { level = "deny", priority = 3 }
-nonstandard_style = { level = "deny", priority = 4 }
-
-[lints.clippy]
-all = { level = "deny" }
-cargo = { level = "deny" , priority = 1}
+[lints]
+workspace = true
 
 [features]
 static = []
