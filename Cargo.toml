@@ -1,17 +1,40 @@
-[package]
-name = "libblkid-rs"
-version = "0.4.2"
+[workspace]
+members = [".", "libblkid-rs-sys"]
+
+[workspace.package]
 authors = ["John Baublitz <jbaublitz@redhat.com>"]
 edition = "2024"
 rust-version = "1.89.0"  # LOWEST SUPPORTED RUST TOOLCHAIN
-description = "High level bindings for libblkid"
 license = "MPL-2.0"
-documentation = "https://docs.rs/libblkid-rs"
 homepage = "https://stratis-storage.github.io"
 repository = "https://github.com/stratis-storage/libblkid-rs"
+
+[workspace.lints.rust]
+warnings = { level = "deny" }
+future_incompatible = { level = "deny", priority = 1 }
+unused = { level = "deny", priority = 2}
+rust_2018_idioms = { level = "deny", priority = 3 }
+nonstandard_style = { level = "deny", priority = 4 }
+
+[workspace.lints.clippy]
+all = { level = "deny" }
+cargo = { level = "deny" , priority = 1}
+from_over_into = { level = "allow", priority = 2 }
+
+[package]
+name = "libblkid-rs"
+version = "0.4.2"
+description = "High level bindings for libblkid"
+documentation = "https://docs.rs/libblkid-rs"
 categories = ["os::linux-apis", "api-bindings"]
 keywords = ["storage"]
 exclude = [".clippy.toml", ".githooks/*", ".github/*", ".gitignore", "Makefile"]
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
 
 [dependencies.libblkid-rs-sys]
 version = "0.3.1"
@@ -27,14 +50,5 @@ default = []
 deprecated = []
 static = ["libblkid-rs-sys/static"]
 
-[lints.rust]
-warnings = { level = "deny" }
-future_incompatible = { level = "deny", priority = 1 }
-unused = { level = "deny", priority = 2}
-rust_2018_idioms = { level = "deny", priority = 3 }
-nonstandard_style = { level = "deny", priority = 4 }
-
-[lints.clippy]
-all = { level = "deny" }
-cargo = { level = "deny" , priority = 1}
-from_over_into = { level = "allow", priority = 2 }
+[lints]
+workspace = true
